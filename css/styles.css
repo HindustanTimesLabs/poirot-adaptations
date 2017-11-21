@@ -2,7 +2,8 @@ body {
 	margin: 0;
 	font-family: "Open Sans", sans-serif;
 }
-#viz, #legend {
+#viz {
+	max-width: 630px;
 	margin: auto;
 	display: table;
 }
@@ -85,16 +86,28 @@ body {
   background-color: #fff;
   border: 1px solid #ccc;
   position: absolute;
-  max-width: 200px;
+  max-width: 220px;
   padding: 5px 10px;
   opacity: 0;
 }
 .tip .title {
   font-size: .8em;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 .tip .datum {
 	font-size: .7em;
+}
+
+/*VIZ TITLES*/
+.viz-title-wrapper {
+	width: 100%;
+}
+.viz-title-wrapper .headline {
+	text-align: center;
+	font-weight: bold;
+	font-size: 2em;
+	margin-bottom: 40px;
 }
 
 /*LEGEND*/

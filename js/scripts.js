@@ -9,9 +9,9 @@ var tip = d3.select("body").append("div")
 tip.append("div")
 	.attr("class", "title");
 tip.append("div")
-	.attr("class", "datum");
-// tip.append("div")
-// 	.attr("class", "type datum");
+	.attr("class", "basic-info datum");
+tip.append("div")
+	.attr("class", "actor datum");
 // tip.append("div")
 // 	.attr("class", "year datum");
 
@@ -140,7 +140,8 @@ function ready(err, data){
 					name: d.adaptation,
 					book: d.book,
 					year: d.adaptation_year,
-					hide: book_lookup.hide ? true : false
+					hide: book_lookup.hide ? true : false,
+					actor: d.adapatation_actor
 				};
 			})
 			.filter(function(d){
@@ -218,8 +219,13 @@ function ready(err, data){
 					tip.select(".title")
 						.html(d.name);
 
-					tip.select(".datum")
+					tip.select(".basic-info")
 						.html(d.year + " <span style='color: " + color_types[jz.str.toSlugCase(d.type)] + "'>" + d.type + "</span>");
+
+					if (d.actor) {
+						tip.select(".actor")
+						.html("Poirot portrayed by <b>" + d.actor + "</b>")
+					}
 
 					// position
 	       	var media_pos = d3.select(this).node().getBoundingClientRect();
