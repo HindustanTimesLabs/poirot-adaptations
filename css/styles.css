@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	font-family: "Open Sans", sans-serif;
 }
-#viz {
+#viz, #legend {
 	margin: auto;
 	display: table;
 }
@@ -21,6 +21,7 @@ body {
 }
 .baseline {
 	stroke: #ccc;
+	shape-rendering: crispEdges;
 }
 
 .controls-wrapper {
@@ -94,4 +95,30 @@ body {
 }
 .tip .datum {
 	font-size: .7em;
+}
+
+/*LEGEND*/
+#legend {
+	width: 100%;
+	margin-bottom: 40px;
+}
+#legend .title {
+	text-align: center;
+	border-bottom: 1px solid black;
+	margin-bottom: 5px;
+}
+#legend img {
+	width: 100%;
+}
+
+/*UTILITIES*/
+.help {
+	font-size: .8em;
+	color: #888;
+}
+.right {
+	text-align: right;
+}
+.center {
+	text-align: center;
 }

@@ -1,6 +1,6 @@
 // magic numbers
 var book_title_height = 12,
-	margin = {left: 20, right: 20},
+	margin = {left: 5, right: 5},
 	outer_width = d3.min([600, window.innerWidth]);
 
 // initalize the tip
@@ -307,6 +307,9 @@ function ready(err, data){
 	}
 
 }
+
+// make the legend
+
 
 function keepNumber(x){
 	return x.replace(/[^\d.-]/g, "");
