@@ -224,7 +224,9 @@ function ready(err, data){
 
 					if (d.actor) {
 						tip.select(".actor")
-						.html("Poirot portrayed by <b>" + d.actor + "</b>")
+								.html("Poirot portrayed by <b>" + d.actor + "</b>");
+					} else {
+						tip.select(".actor").html("");
 					}
 
 					// position
