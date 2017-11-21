@@ -1,6 +1,6 @@
 // magic numbers
 var book_title_height = 12,
-	margin = {left: 5, right: 5},
+	margin = {left: 6, right: 6},
 	outer_width = d3.min([600, window.innerWidth]);
 
 // initalize the tip
