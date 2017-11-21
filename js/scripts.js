@@ -3,6 +3,18 @@ var book_title_height = 12,
 	margin = {left: 20, right: 20},
 	outer_width = d3.min([600, window.innerWidth]);
 
+// initalize the tip
+var tip = d3.select("body").append("div")
+	.attr("class", "tip");
+tip.append("div")
+	.attr("class", "title");
+tip.append("div")
+	.attr("class", "datum");
+// tip.append("div")
+// 	.attr("class", "type datum");
+// tip.append("div")
+// 	.attr("class", "year datum");
+
 // setup
 var setup = d3.marcon()
 	.element("#viz")
@@ -24,6 +36,8 @@ var y = d3.scaleBand()
 	.align(.01);
 
 var colors = {red: "#df5a49", blue: "#334d5c", green: "#45b29d"};
+
+var color_types = {"tv-series": colors.red, "tv-film": colors.blue, "film": colors.green, book: "black"};
 
 var sorts = [
 	{
@@ -121,7 +135,6 @@ function ready(err, data){
 		var media_data = jz.arr.flatten([data
 			.map(function(d){ 
 				var book_lookup = books.filter(function(e){ return e.book == d.book; })[0];
-				console.log(book_lookup);
 				return {
 					type: d.adaptation_type,
 					name: d.adaptation,
@@ -195,6 +208,45 @@ function ready(err, data){
 				.attr("height", media_height)
 				.style("fill", setFill)
 
+
+		// tip
+		svg.selectAll(".media-rect")
+				.on("mouseover", function(d){
+						
+					d3.select(this).classed("selected", true);
+
+					tip.select(".title")
+						.html(d.name);
+
+					tip.select(".datum")
+						.html(d.year + " <span style='color: " + color_types[jz.str.toSlugCase(d.type)] + "'>" + d.type + "</span>");
+
+					// position
+	       	var media_pos = d3.select(this).node().getBoundingClientRect();
+	       	var tip_pos = d3.select(".tip").node().getBoundingClientRect();
+	       	var tip_offset = 5;
+	       	var window_offset = window.pageYOffset;
+
+	       	var top = window_offset + media_pos.y - tip_pos.height - tip_offset;
+	       	top = top < window_offset ? window_offset + media_pos.y + media_pos.height + tip_offset :
+	       		top;
+
+	       	d3.select(".tip")
+	       		.style("opacity", .9)
+	       		.style("left", (media_pos.x - tip_pos.width / 2) + "px")
+	       		.style("top", top + "px");
+
+				})
+				.on("mouseout", function(){
+					d3.selectAll(".media-rect").classed("selected", false);
+
+					d3.select(".tip")
+		       		.style("opacity", 0)
+		       		.style("left", "-1000px")
+		       		.style("top", "-1000px");
+		       		
+				})
+
 		// HELPER FUNCTIONS		
 		function setFill(d){
 			
@@ -202,10 +254,7 @@ function ready(err, data){
 				return "#eee"
 			} else {
 				var type = jz.str.toSlugCase(d.type);	
-				return	type == "tv-series" ? colors.red :
-					type == "tv-film" ? colors.blue :
-					type == "film" ? colors.green :
-					"black";
+				return	color_types[type];
 			}
 			
 		}
