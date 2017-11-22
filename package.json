@@ -1,0 +1,23 @@
+{
+  "name": "poirot-adaptations",
+  "version": "1.0.0",
+  "description": "Visual story about adaptations of Poirot for the upcoming \"Murder on the Orient Express\" movie.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HindustanTimesLabs/poirot-adaptations.git"
+  },
+  "author": "Harry Stevens <harryjosephstevens@gmail.com> (http://harryjstevens.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HindustanTimesLabs/poirot-adaptations/issues"
+  },
+  "homepage": "https://github.com/HindustanTimesLabs/poirot-adaptations#readme",
+  "dependencies": {
+    "indian-ocean": "^3.0.2",
+    "jeezy": "^1.12.8"
+  }
+}

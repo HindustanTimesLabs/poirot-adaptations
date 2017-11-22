@@ -19,13 +19,7 @@ var annotations_data = [{
 	name: "The Mysterious Affair at Styles",
 	book: "The Mysterious Affair at Styles",
 	year: "1920",
-	label: "The first Poirot Book by Agatha Christie.",
-	type: "book"
-}, {
-	name: "The Mysterious Affair at Styles",
-	book: "The Mysterious Affair at Styles",
-	year: "1920",
-	label: "The first Poirot Book by Agatha Christie.",
+	label: "The first Poirot book by Agatha Christie.",
 	type: "book"
 }, {
 	name: "Agatha Christie's Poirot: The Mysterious Affair at Styles",
@@ -43,7 +37,7 @@ var annotations_data = [{
 	name: "Death on the Nile",
 	book: "Death on the Nile",
 	year: "1978",
-	label: "The first film in which Peter Ustinov played Poirot. He played him six times in all.",
+	label: "The first movie in which Peter Ustinov played Poirot. He played him six times in all.",
 	type: "film" 
 }]
 
@@ -59,12 +53,14 @@ tip.append("div")
 	.attr("class", "basic-info datum");
 tip.append("div")
 	.attr("class", "actor datum");
+tip.append("div")
+	.attr("class", "cover-image");
 
 // setup
 var setup = d3.marcon()
 	.element("#viz")
 	.width(outer_width)
-	.height(2000)
+	.height(2200)
 	.right(margin.right)
 	.left(margin.left)
 
@@ -125,7 +121,7 @@ function ready(err, data){
 	var media_width = y.bandwidth() / 4.5;
 	var media_height = y.bandwidth() / 3;
 	var outline_pad = 1.5;
-	var outline_width = media_width * outline_pad;
+	var outline_width = media_width * outline_pad * 1.5;
 	var outline_height = media_height * outline_pad;
 
 	draw("adaptation_count");
@@ -189,7 +185,8 @@ function ready(err, data){
 					book: d.book,
 					year: d.adaptation_year,
 					hide: book_lookup.hide ? true : false,
-					actor: d.adapatation_actor
+					actor: d.adapatation_actor,
+					image: d.image
 				};
 			})
 			.filter(function(d){
@@ -224,7 +221,7 @@ function ready(err, data){
 				.style("fill", setFill);
 
 		media_outline.transition()
-				.attr("y", setBookY);
+				.attr("y", function(d){ return setBookY(d) - ((outline_height - media_height) / 2) });
 				
 		// ENTER
 		baseline.enter().append("line")
@@ -253,7 +250,7 @@ function ready(err, data){
 		media_outline.enter().append("rect")
 				.attr("class", "media-outline")
 				.attr("x", function(d){ return x(d.year) - (outline_width / 2); })
-				.attr("y", setBookY)
+				.attr("y", function(d){ return setBookY(d) - ((outline_height - media_height) / 2) })
 				.attr("width", outline_width)
 				.attr("height", outline_height)
 				.style("fill", "transparent")
@@ -281,7 +278,7 @@ function ready(err, data){
 			obj.dx = lr == "left" ? -x(d.year) - padding : (width - x(d.year)) + padding;
 			
 			obj.connector.end = "arrow";
-			// obj.color = color_types[d.type];
+			// obj.connector.type = "curve";
 			obj.color = lookup.hide ? "#ccc" : color_types[d.type];
 
 			obj.className = jz.str.toSlugCase(obj.note.title);
@@ -308,14 +305,17 @@ function ready(err, data){
 						.html(d.name);
 
 					tip.select(".basic-info")
-						.html(d.year + " <span style='color: " + color_types[jz.str.toSlugCase(d.type)] + "'>" + d.type + "</span>");
+						.html(d.year + " <span style='color: " + color_types[jz.str.toSlugCase(d.type)] + "'>" + d.type + "</span>" + (d.actor ? " starring " + d.actor : ""));
 
-					if (d.actor) {
-						tip.select(".actor")
-								.html("Poirot portrayed by <b>" + d.actor + "</b>");
-					} else {
-						tip.select(".actor").html("");
-					}
+					tip.select(".cover-image")
+						.html(d.type == "book" || d.image == "true" ? "<img src='img/covers/" + jz.str.toSnakeCase(d.name) + "_" + d.year + ".jpg' />" : "");
+
+					// if (d.actor) {
+					// 	tip.select(".actor")
+					// 			.html("Poirot portrayed by <b>" + d.actor + "</b>");
+					// } else {
+					// 	tip.select(".actor").html("");
+					// }
 
 					// position
 	       	var media_pos = d3.select(rect_class).node().getBoundingClientRect();
@@ -328,7 +328,7 @@ function ready(err, data){
 	       		top;
 
 	       	d3.select(".tip")
-	       		.style("opacity", .9)
+	       		.style("opacity", .98)
 	       		.style("left", (media_pos.x - tip_pos.width / 2) + "px")
 	       		.style("top", top + "px");
 
