@@ -3,7 +3,6 @@ body {
 	font-family: "Open Sans", sans-serif;
 }
 #viz {
-	max-width: 630px;
 	margin: auto;
 	display: table;
 }
@@ -25,6 +24,14 @@ body {
 	shape-rendering: crispEdges;
 }
 
+
+/*VIZ EXPLANATIONS*/
+#legend, .viz-title-wrapper, .controls-wrapper {
+	max-width: 600px;
+	margin: auto;
+}
+
+/*CONTROLS*/
 .controls-wrapper {
 	margin-bottom: 20px;
 	text-align: center;
@@ -32,6 +39,8 @@ body {
 .controls-col {
 	display: inline-block;
 	text-align: center;
+}
+.controls-col.sort {
 	margin-right: 10px;
 }
 .controls-wrapper .heading {
@@ -45,7 +54,7 @@ body {
   -webkit-appearance: none;
   border-style: none;
   border: 1px solid #ccc;
-
+  width: 194px;
 }
 .toggle-item {
 	display: inline-block;
@@ -124,6 +133,25 @@ body {
 }
 #legend img {
 	width: 100%;
+}
+
+/*ANNOTATIONS*/
+/*.annotation-connector .connector {
+  stroke: #000;
+}
+.annotation-connector .connector-end.connector-arrow {
+	fill: #000;
+	stroke: #000;
+}
+.annotation-note .note-line {
+	stroke: #000;
+}*/
+.annotation-note-title {
+  font-size: .9em;
+}
+.annotation-note-label {
+	font-size: .8em;
+	fill: #000;
 }
 
 /*UTILITIES*/

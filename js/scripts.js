@@ -1,7 +1,54 @@
 // magic numbers
 var book_title_height = 12,
-	margin = {left: 6, right: 6},
-	outer_width = d3.min([600, window.innerWidth]);
+	outer_width = window.innerWidth,
+	margin = {left: (outer_width - 600) / 2, right: (outer_width - 600) / 2};
+
+var annotations_data = [{
+	name: "Murder on the Orient Express",
+	book: "Murder on the Orient Express",
+	year: "2017",
+	label: "This year's release was directed by Kenneth Branagh, who also stars as Poirot.",
+	type: "film"
+},{
+	name: "Lord Edgware Dies",
+	book: "Lord Edgware Dies",
+	year: "1934",
+	label: "The first Poirot book adapted into a movie was released the year after publication.",
+	type: "film"
+}, {
+	name: "The Mysterious Affair at Styles",
+	book: "The Mysterious Affair at Styles",
+	year: "1920",
+	label: "The first Poirot Book by Agatha Christie.",
+	type: "book"
+}, {
+	name: "The Mysterious Affair at Styles",
+	book: "The Mysterious Affair at Styles",
+	year: "1920",
+	label: "The first Poirot Book by Agatha Christie.",
+	type: "book"
+}, {
+	name: "Agatha Christie's Poirot: The Mysterious Affair at Styles",
+	book: "The Mysterious Affair at Styles",
+	year: "1990",
+	label: "The first time David Suchet played Poirot in the TV series.",
+	type: "tv-series"
+}, {
+	name: "Curtain",
+	book: "Curtain",
+	year: "1975",
+	label: "The final Poirot book has a shocking murderer.",
+	type: "book"
+}, {
+	name: "Death on the Nile",
+	book: "Death on the Nile",
+	year: "1978",
+	label: "The first film in which Peter Ustinov played Poirot. He played him six times in all.",
+	type: "film" 
+}]
+
+var annotations_generator = d3.annotation()
+  .type(d3.annotationCallout);
 
 // initalize the tip
 var tip = d3.select("body").append("div")
@@ -57,10 +104,6 @@ d3.select(".sort-wrapper")
 		.attr("data-which", function(d){ return d.id; })
 		.html(function(d){ return d.text; });
 
-// set search width
-d3.select(".search-field")
-		.style("width", outer_width - margin.left - margin.right - keepNumber(d3.select(".controls-col.sort").style("width")) + "px")
-
 // load data
 d3.queue()
 	.defer(d3.csv, "data/films.csv")
@@ -95,6 +138,10 @@ function ready(err, data){
 		var id = d3.select(".toggle-item.active").attr("data-which");
 		draw(id);
 	});
+
+	svg.append("g")
+	  .attr("class", "annotation-group")
+	  .call(annotations_generator)
 
 	function draw(sort){
 		var books = jz.arr.uniqueBy(data, "book").map(function(book){ 
@@ -189,7 +236,7 @@ function ready(err, data){
 
 		book_title.enter().append("text")
 				.attr("class", "book-title")
-				.attr("x", -margin.left)
+				.attr("x", 0)
 				.attr("y", function(d){ return y(d.book); })
 				.attr("dy", book_title_height)
 				.style("fill", function(d){ return d.hide ? "#eee" : "black"; })
@@ -210,6 +257,44 @@ function ready(err, data){
 				.attr("width", outline_width)
 				.attr("height", outline_height)
 				.style("fill", "transparent")
+
+		// process the annotations
+
+		var annotations = annotations_data.map(function(d){
+
+			var lookup = media_data.filter(function(e){
+				return e.name == d.name && e.year == d.year;
+			})[0];
+			
+			var obj = {note: {}, connector: {}};
+			var lr = x(d.year) / width < .5 ? "left" : "right";
+			var padding = 60;
+
+			obj.note.label = d.label;
+			obj.note.title = d.name + " (" + d.year + ")";
+			obj.note.align = lr == "left" ? "right" : "left";
+			
+			obj.x = x(d.year) + (lr == "right" ? media_width / 2 : -media_width / 2);
+			obj.y = setBookY(d) + (media_height / 2);
+
+			obj.dy = height - obj.y < 200 ? -10 : 10;			
+			obj.dx = lr == "left" ? -x(d.year) - padding : (width - x(d.year)) + padding;
+			
+			obj.connector.end = "arrow";
+			// obj.color = color_types[d.type];
+			obj.color = lookup.hide ? "#ccc" : color_types[d.type];
+
+			obj.className = jz.str.toSlugCase(obj.note.title);
+
+			d3.select("." + obj.className + " .annotation-note-label").style("fill", lookup.hide ? "#ccc" : "#000");	
+			
+			return obj;
+		});
+
+		annotations_generator.annotations(annotations);
+
+		svg.select(".annotation-group")
+				.call(annotations_generator);
 
 		// tip
 		svg.selectAll(".media-outline")
@@ -274,7 +359,7 @@ function ready(err, data){
 			var media_y = y(d.book);
 			var media_x = x(d.year);
 			var media_offset = "none";
-			
+
 			// get the set of all media and its x position
 			var book_set = media_data
 				.filter(function(media){ 
