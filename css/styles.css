@@ -159,6 +159,9 @@ body {
 #legend img {
 	width: 100%;
 }
+.mobile-legend {
+	display: none;
+}
 
 /*ANNOTATIONS*/
 .annotation-note-title {
@@ -200,7 +203,19 @@ body {
 	text-align: center;
 }
 
-/* Small Devices, Tablets */
+/*THE POINT AT WHICH SIDE ANNOTATIONS NO LONGER WORK*/
+@media only screen and (max-width: 830px) {
+	.annotation-note-title {
+		display: none;
+	}
+	.annotation-note-label {
+		font-weight: bold;
+		text-shadow: -1px -1px 1px #ffffff, -1px 0px 1px #ffffff, -1px 1px 1px #ffffff, 0px -1px 1px #ffffff, 0px 1px 1px #ffffff, 1px -1px 1px #ffffff, 1px 0px 1px #ffffff, 1px 1px 1px #ffffff;
+	}
+
+}
+
+/*THE POINT AT WHICH THE TABLE IS TOO WIDE*/
 @media only screen and (max-width: 600px) {
 	.titles-wrapper h1 {
 		font-size: 2em;
@@ -224,6 +239,7 @@ body {
 
 }
 
+/*THE POINT AT WHICH THINGS GET REALLY TINY*/
 @media only screen and (max-width: 510px) {
 	.toggle-item {
 		height: 40px;
@@ -236,6 +252,17 @@ body {
 	}
 	.book-title tspan {
 		display: none;
+	}
+
+	.desktop-legend {
+		display: none;
+	}
+	.mobile-legend {
+		display: block;
+	}
+
+	.help {
+		margin-top: 5px;
 	}
 }
 		
