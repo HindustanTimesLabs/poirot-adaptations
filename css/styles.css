@@ -7,14 +7,21 @@ body {
 .main {
 	padding-top: 0px;
 }
+.titles-wrapper h1 {
+	font-size: 4em;
+}
 #viz {
 	margin: auto;
 	display: table;
 }
+#viz #table {
+	margin: 0 auto;
+  display: table;
+}
 .book-title {
 	font-weight: bold;
 }
-.book-title tspan {
+.book-title tspan, .book-subtitle {
 	font-weight: normal;
 	font-size: .8em;
 	fill: #888;
@@ -31,11 +38,14 @@ body {
 
 
 /*VIZ EXPLANATIONS*/
-.viz-title-wrapper {
-	max-width: 600px;
-	margin: auto;
+.chart-tool-wrapper {
+	text-align: center;
 }
-#legend, .controls-wrapper {
+.chart-tool {
+	/*display: inline-block;
+	vertical-align: top;*/
+}
+#legend, .controls-wrapper, .viz-title-wrapper {
 	max-width: 600px;
 	margin: auto;
 }
@@ -139,7 +149,7 @@ body {
 /*LEGEND*/
 #legend {
 	width: 100%;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 #legend .title {
 	text-align: center;
@@ -189,3 +199,43 @@ body {
 .center {
 	text-align: center;
 }
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 600px) {
+	.titles-wrapper h1 {
+		font-size: 2em;
+	}
+	#legend, .controls-wrapper, .viz-title-wrapper {
+		padding: 0px 20px;
+		width: auto;
+	}
+	.controls-col {
+		width: 100%;
+	}
+	.controls-col.sort {
+		margin-bottom: 20px;
+	}
+	.toggle-item {
+		width: 31%;
+	}
+	.controls-col.search {
+		display: none;
+	}
+
+}
+
+@media only screen and (max-width: 510px) {
+	.toggle-item {
+		height: 40px;
+    vertical-align: top;
+	}
+	.toggle-item.year, .toggle-item.name {
+		padding-top: 15px;
+    padding-bottom: 0px;
+    height: 33px;
+	}
+	.book-title tspan {
+		display: none;
+	}
+}
+		

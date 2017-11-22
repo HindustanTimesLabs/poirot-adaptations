@@ -54,7 +54,7 @@
   <div class="main">
     <div class="titles-wrapper">
       <h1 class="headline">The Timeless Allure of Hercule Poirot</h1>
-      <h2 class="byline">By <a href="http://www.hindustantimes.com/columns/harry-stevens">Harry Stevens</a>, <a href="http://www.hindustantimes.com/columns/rohan-naahar">Rohan Naahar</a>, and <a href="http://www.hindustantimes.com/columns/supriya-sharma">Supriya Sharma</a> | 25 November, 2017</h2>
+      <h2 class="byline">By <a href="http://www.hindustantimes.com/columns/harry-stevens">Harry Stevens</a>, <a href="http://www.hindustantimes.com/columns/rohan-naahar">Rohan Naahar</a>, and <a href="http://www.hindustantimes.com/columns/supriya-sharma">Supriya Sharma</a><br style="margin-top:10px" />25 November, 2017</h2>
     </div>
     <div class="copy">
       <p>With the release this week of <em>Murder on the Orient Express</em>, starring Kenneth Branagh as famous fictional detective Hercule Poirot, HT takes a look at the mustachioed sleuth&rsquo;s enduring appeal.</p>
@@ -71,22 +71,31 @@
 
 			</div>
 		</div>
-		<div id="legend">
-			<div class="title">How to read this chart</div>
-			<img src="img/legend-01.svg" />
-			<div class="help center"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Hover or tap to get more information.</div>
-		</div>
+		<div class="chart-tool-wrapper">
 
-		<div class="controls-wrapper">
-			<div class="controls-col sort">
-				<div class="heading">Sort</div>
-				<div class="sort-wrapper"></div>
+			<div class="chart-tool" id="legend">
+				
+				<div class="title">How to read this chart</div>
+				<img src="img/legend-01.svg" />
+				<div class="help center"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Hover or tap to get more information.</div>
 			</div>
-			<div class="controls-col">
-				<div class="heading">Search</div>
-				<input class="search-field" placeholder="Type the name of a book..." type="text" />
+
+			<div class="chart-tool controls-wrapper">
+				<div class="controls-col sort">
+					<div class="heading">Sort</div>
+					<div class="sort-wrapper"></div>
+				</div>
+
+				<div class="controls-col search">
+					<div class="heading">Search</div>
+					<input class="search-field" placeholder="Type the name of a book..." type="text" />
+				</div>
+
 			</div>
+
+
 		</div>
+		<div id="table"></div>
 	</div>
 
   <div class="related-wrapper">
@@ -151,6 +160,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.1.0/d3-annotation.min.js"></script>
 	<script src="https://unpkg.com/jeezy@1.12.8/lib/jeezy.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="http://www.hindustantimes.com/static/common/js/jquery.smartresize.js"></script>
 	<script src="js/scripts.js"></script>
 	<script src="js/preloader.js"></script>
 	<script src="js/template.js"></script>
