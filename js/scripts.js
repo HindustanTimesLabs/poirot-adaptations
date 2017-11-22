@@ -12,8 +12,6 @@ tip.append("div")
 	.attr("class", "basic-info datum");
 tip.append("div")
 	.attr("class", "actor datum");
-// tip.append("div")
-// 	.attr("class", "year datum");
 
 // setup
 var setup = d3.marcon()
@@ -83,6 +81,9 @@ function ready(err, data){
 	y.domain(jz.arr.uniqueBy(data, "book"));
 	var media_width = y.bandwidth() / 4.5;
 	var media_height = y.bandwidth() / 3;
+	var outline_pad = 1.5;
+	var outline_width = media_width * outline_pad;
+	var outline_height = media_height * outline_pad;
 
 	draw("adaptation_count");
 	d3.selectAll(".toggle-item").on("click", function(d){
@@ -159,18 +160,8 @@ function ready(err, data){
 		var media_rect = svg.selectAll(".media-rect")
 				.data(media_data, function(d){ return d.name + d.year });
 
-		// EXIT
-		baseline.exit()
-			.transition()
-				.style("opacity", 0).remove();
-		
-		book_title.exit()
-			.transition()
-				.style("opacity", 0).remove();
-
-		media_rect.exit()
-			.transition()
-				.style("opacity", 0).remove();
+		var media_outline = svg.selectAll(".media-outline")
+				.data(media_data, function(d){ return d.name + d.year });
 
 		// UPDATE
 		baseline.transition()	
@@ -185,6 +176,9 @@ function ready(err, data){
 				.attr("y", setBookY)
 				.style("fill", setFill);
 
+		media_outline.transition()
+				.attr("y", setBookY);
+				
 		// ENTER
 		baseline.enter().append("line")
 				.attr("class", "baseline")
@@ -202,19 +196,28 @@ function ready(err, data){
 				.html(function(d){ return d.book + " <tspan>Published in " + d.year + " | " + d.adaptation_count + " adaptation" + (d.adaptation_count == 1 ? "" : "s") + "</tspan>"; });
 
 		media_rect.enter().append("rect")
-				.attr("class", function(d){ return "media-rect " + jz.str.toSlugCase(d.book) + " " + jz.str.toSlugCase(d.type) ; })
+				.attr("class", function(d){ return "media-rect " + jz.str.toSlugCase(d.book) + " y-" + d.year ; })
 				.attr("x", function(d){ return x(d.year) - (media_width / 2); })
 				.attr("y", setBookY)
 				.attr("width", media_width)
 				.attr("height", media_height)
 				.style("fill", setFill)
 
+		media_outline.enter().append("rect")
+				.attr("class", "media-outline")
+				.attr("x", function(d){ return x(d.year) - (outline_width / 2); })
+				.attr("y", setBookY)
+				.attr("width", outline_width)
+				.attr("height", outline_height)
+				.style("fill", "transparent")
 
 		// tip
-		svg.selectAll(".media-rect")
+		svg.selectAll(".media-outline")
 				.on("mouseover", function(d){
-						
-					d3.select(this).classed("selected", true);
+
+					var rect_class = ".media-rect." + jz.str.toSlugCase(d.book) + ".y-" + d.year;
+
+					d3.select(rect_class).classed("selected", true);
 
 					tip.select(".title")
 						.html(d.name);
@@ -230,7 +233,7 @@ function ready(err, data){
 					}
 
 					// position
-	       	var media_pos = d3.select(this).node().getBoundingClientRect();
+	       	var media_pos = d3.select(rect_class).node().getBoundingClientRect();
 	       	var tip_pos = d3.select(".tip").node().getBoundingClientRect();
 	       	var tip_offset = 5;
 	       	var window_offset = window.pageYOffset;
