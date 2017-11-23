@@ -13,14 +13,14 @@ tip.append("div").attr("class", "type victim");
 var colors = {red: "#df5a49", blue: "#2880b9", green: "#45b29d"};
 var color_names = {man: colors.blue, woman: colors.red};
 var element = "#gender-chart";
-var margin = {left: 40};
+var margin = {left: 40, top: 60};
 var setup = d3.marcon()
 	.element(element)
 	.width(+jz.str.keepNumber(d3.select(element).style("width")))
 	.height(d3.max([600, window.innerHeight]))
 	.left(margin.left)
 	.right(40)
-	.top(20)
+	.top(margin.top)
 	.bottom(20);
 setup.render();
 var width = setup.innerWidth(), height = setup.innerHeight(), svg = setup.svg();
@@ -73,6 +73,16 @@ d3.csv("data/gender.csv", function(err, data){
 	// domains
 	x.domain(types);
 	y.domain(d3.extent(data, function(d){ return d.book_year; }));
+
+  // top labels
+  var top_label = svg.selectAll(".top-label")
+      .data(types)
+    .enter().append("text")
+      .attr("class", "top-label")
+      .attr("x", function(d){ return x(d) + (x.bandwidth() / 2); })
+      .attr("y", -margin.top)
+      .attr("dy", 12)
+      .text(function(d){ return jz.str.toStartCase(d) + "s"; })
 
   var simulation = d3.forceSimulation(data)
   		.force("y", d3.forceY(function(d){ return y(d.book_year); }).strength(1))
@@ -162,9 +172,11 @@ d3.csv("data/gender.csv", function(err, data){
       var window_offset = window.pageYOffset;
       var window_padding = 40;
       var y_pos = y(d.data.book_year);
+      var svg_offset = $("#gender-chart svg").position();
 
-      var top = y_pos - (tip_pos.height * 1.2);
-      top = top < window_offset ? window_offset : top;
+      var top = y_pos - (tip_pos.height * 1.2) + svg_offset.top;
+      top = top < $(window).scrollTop() ? $(window).scrollTop() : top;
+      top = top < svg_offset.top ? svg_offset.top : top;
 
       d3.select(".gender-tip")
         .style("left", (ww / 2) - (tip_pos.width / 2) + "px")
@@ -176,7 +188,7 @@ d3.csv("data/gender.csv", function(err, data){
         var x1 = calcx1(line);
         var x2 = calcx2(line);
         var y1 = y(line.book_year);
-        var y2 = top + 35;
+        var y2 = top - svg_offset.top;
         var orient = line.book == "Murder on the Orient Express";
         line.points = [
           {

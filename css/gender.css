@@ -30,6 +30,16 @@ body {
 	stroke-dasharray: 5, 5;
 }
 
+
+.top-label {
+	font-weight: bold;
+	text-anchor: middle;
+	/*display: inline-block;
+	width: 50%;*/
+}
+
+
+
 .tip-line {
 	stroke: #000;
 	stroke-width: 1.5px;
