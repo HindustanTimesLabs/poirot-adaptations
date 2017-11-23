@@ -1,19 +1,60 @@
 body {
   margin: 0;
+  font-family: "Open Sans", sans-serif;
 }
-.cells path {
+.cell path {
   fill: none;
   pointer-events: all;
 }
-.cells circle.man {
-	fill: blue;
+
+.cell.selected circle {
+	stroke: #000;
+	stroke-width: 2px;
 }
-.cells circle.woman {
-	fill: red;
-}
+
 
 #gender-chart {
 	max-width: 600px;
 	width: 100%;
 	margin: auto;
+}
+
+#gender-chart .axis {
+	font-family: "Open Sans", sans-serif;
+}
+#gender-chart .axis .domain {
+	display: none;
+}
+#gender-chart .axis .tick line {
+	stroke: #ccc;
+	stroke-dasharray: 5, 5;
+}
+
+.tip-line {
+	stroke: #000;
+	stroke-width: 1.5px;
+	fill: none;
+}
+
+.gender-tip {
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+	/*max-width: 200px;*/
+	pointer-events: none;
+	/*padding: 5px;*/
+	text-shadow: -1px -1px 1px #ffffff, -1px 0px 1px #ffffff, -1px 1px 1px #ffffff, 0px -1px 1px #ffffff, 0px 1px 1px #ffffff, 1px -1px 1px #ffffff, 1px 0px 1px #ffffff, 1px 1px 1px #ffffff;
+}
+.gender-tip .kill {
+	font-size: .8em;
+}
+.gender-tip .book-name {
+	font-weight: bold;
+	font-size: .9em;
+	background: rgba(255, 255, 255, .8);
+	margin-bottom: 10px;
+}
+.gender-tip .type {
+	font-size: .8em;
 }
