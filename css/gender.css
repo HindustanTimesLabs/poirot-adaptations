@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+}
+.cells path {
+  fill: none;
+  pointer-events: all;
+}
+.cells circle.man {
+	fill: blue;
+}
+.cells circle.woman {
+	fill: red;
+}
+
+#gender-chart {
+	max-width: 600px;
+	width: 100%;
+	margin: auto;
+}

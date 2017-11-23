@@ -1,0 +1,105 @@
+book,gender,name,book_year,type
+The Mysterious Affair at Styles,man,Alfred Inglethorp,1920,murderer
+Murder on the Links,woman,Marthe Daubreuil,1923,murderer
+The Murder of Roger Ackroyd,man,Dr James Sheppard,1926,murderer
+The Big Four,man,Abe Rylan,1927,murderer
+The Big Four,man,Claude Darrell,1927,murderer
+The Big Four,man,Li Chang Yen,1927,murderer
+The Big Four,woman,Madame Olivier,1927,murderer
+The Mystery of the Blue Train,man,Major Knighton,1928,murderer
+The Mystery of the Blue Train,woman,Ada Mason aka Kitty Kidd,1928,murderer
+Peril at End House,woman,"Magdala ""Nick"" Buckley",1931,murderer
+Lord Edgware Dies,woman,Jane Wilkinson,1933,murderer
+Murder on the Orient Express,woman,Mary Debenham,1934,murderer
+Murder on the Orient Express,woman,Mrs. Hubbard,1934,murderer
+Murder on the Orient Express,man,Colonel Arbuthnot,1934,murderer
+Murder on the Orient Express,woman,Princess Dragomiroff,1934,murderer
+Murder on the Orient Express,man,Hector McQueen,1934,murderer
+Murder on the Orient Express,woman,Countess Andrenyi,1934,murderer
+Murder on the Orient Express,man,Count Andrenyi,1934,murderer
+Murder on the Orient Express,man,Cyrus Hardman,1934,murderer
+Murder on the Orient Express,man,Antonoi Foscanelli,1934,murderer
+Murder on the Orient Express,woman,Greta Ohlsson,1934,murderer
+Murder on the Orient Express,woman,Hildegarde Schmidt,1934,murderer
+Murder on the Orient Express,man,Pierre Michelle,1934,murderer
+Three Act Tragedy,man,Charles Cartwright,1934,murderer
+Death in The Clouds,man,Norman Gale,1935,murderer
+Murder in Mesopotamia,man,Dr Erich Leidner aka Frederick Bosner,1935,murderer
+The ABC Murders,man,Franklin Clarke ,1936,murderer
+Cards on the Table,man,Dr Geoffrey Roberts,1936,murderer
+Dumb Witness,woman,Bella Tanios,1937,murderer
+Death on the Nile,man,Simon Doyle,1937,murderer
+Death on the Nile,woman,Jacqueline de Bellefort,1937,murderer
+Appointment with Death,woman,Lady Westholme,1937,murderer
+Hercule Poirot's Christmas,man,Superintendent Sugden,1938,murderer
+Sad Cypress,woman,Jessie Hopkins,1940,murderer
+Evil Under the Sun,man,Patrick Redfern,1940,murderer
+Evil Under the Sun,woman,Christine Redfern,1940,murderer
+"One, Two, Buckle my Shoe",man,Martin Alistair Blunt,1940,murderer
+Five Little Pigs,woman,Elsa Greer,1941,murderer
+The Hollow,woman,Gerda Christow,1946,murderer
+Taken at the Flood,man,David Hunter,1948,murderer
+Mrs McGinty's Dead,man,Robin Upward,1952,murderer
+After the Funeral,woman,Miss Gilchrist,1953,murderer
+Hickory Dickory Dock,man,Nigel Chapman,1955,murderer
+Dead Man's Folly,man,James,1956,murderer
+Cat Among the Pigeons,woman,Ann Shapland,1959,murderer
+The Clocks,man,Josiah Bland,1963,murderer
+The Clocks,woman,Valerie Bland,1963,murderer
+Third Girl,woman,Frances Cary,1966,murderer
+Hallowe'en Party,woman,Rowena Drake,1969,murderer
+Elephants can Remember,man,Alistair Ravenscroft,1972,murderer
+Curtain,man,Hercule Poirot,1975,murderer
+The Mysterious Affair at Styles,woman,Mrs Inglethorpe,1920,victim
+Murder on the Links,man,Paul Renauld,1923,victim
+The Murder of Roger Ackroyd,man,Roger Ackroyd,1926,victim
+The Murder of Roger Ackroyd,woman,Mrs Ferrars,1926,victim
+The Big Four,man,Mayerling,1927,victim
+The Big Four,man,Mr Jonathan Whalley,1927,victim
+The Big Four,man,Mr Paynter,1927,victim
+The Big Four,man,Gilmour Wilson,1927,victim
+The Big Four,man,John Ingles,1927,victim
+The Big Four,woman,Miss Monro,1927,victim
+The Mystery of the Blue Train,woman,Ruth Kettering,1928,victim
+Peril at End House,woman,Maggie,1931,victim
+Lord Edgware Dies,man,Lord Edgware,1933,victim
+Lord Edgware Dies,man,Donald Ross,1933,victim
+Lord Edgware Dies,woman,Carlotta Adams,1933,victim
+Murder on the Orient Express,man,Ratchett/Cassetti,1934,victim
+Three Act Tragedy,man,Reverend Babbington,1934,victim
+Three Act Tragedy,man,Dr Strange,1934,victim
+Three Act Tragedy,woman,Mrs De Rushbridger,1934,victim
+Death in The Clouds,woman,Madame Giselle ,1935,victim
+Murder in Mesopotamia,woman,Louise Leidner,1935,victim
+Murder in Mesopotamia,woman,Miss Johnson,1935,victim
+The ABC Murders,woman,Alice Ascher,1936,victim
+The ABC Murders,woman,Betty Barnard,1936,victim
+The ABC Murders,man,Sir Carmichael Clarke,1936,victim
+Cards on the Table,man,Mr Shaitana,1936,victim
+Cards on the Table,woman,Mrs Lorrimer,1936,victim
+Cards on the Table,woman,Anne,1936,victim
+Dumb Witness,woman,Emily Arundell,1937,victim
+Death on the Nile,woman,Linnet Doyle,1937,victim
+Death on the Nile,woman,Louise,1937,victim
+Death on the Nile,woman,Mrs Otterbourne,1937,victim
+Appointment with Death,woman,Mrs Boynton,1937,victim
+Hercule Poirot's Christmas,man,Simeon Lee,1938,victim
+Sad Cypress,woman,Laura Welman,1940,victim
+Sad Cypress,woman,Mary Gerrard,1940,victim
+Evil Under the Sun,man,Henry Morley,1940,victim
+"One, Two, Buckle my Shoe",woman,Nameless,1940,victim
+Five Little Pigs,man,Amyas Crale,1941,victim
+The Hollow,man,John Christow,1946,victim
+Taken at the Flood,man,Enoch Arden,1948,victim
+Mrs McGinty's Dead,woman,Mrs McGinty,1952,victim
+After the Funeral,man,Richard Abernethie,1953,victim
+Hickory Dickory Dock,woman,Celia Austin,1955,victim
+Dead Man's Folly,woman,Marlene Tucker,1956,victim
+Cat Among the Pigeons,woman,Miss Springer,1959,victim
+Cat Among the Pigeons,woman,Miss Vansittart,1959,victim
+The Clocks,man,Merlina Rival,1963,victim
+The Clocks,woman,Nameless dead man,1963,victim
+Third Girl,man,David Baker,1966,victim
+Hallowe'en Party,woman,Joyce Reynolds,1969,victim
+Elephants can Remember,woman,Mrs Ravenscroft,1972,victim
+Curtain,man,Stephen Norton,1975,victim

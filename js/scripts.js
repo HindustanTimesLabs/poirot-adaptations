@@ -34,8 +34,7 @@ function doit(){
 		else {
 			return m < 190 ? 190 : m;	
 		}
-
-		
+	
 	}
 
 	var annotations_data = [{
@@ -336,7 +335,7 @@ function doit(){
 					obj.x = x(d.year) + (lr == "right" ? media_width / 2 : -media_width / 2);
 					obj.y = setBookY(d) + (media_height / 2);
 
-					obj.dy = height - obj.y < 200 ? -10 : 10;			
+					obj.dy = height - obj.y < 200 ? -30 : 30;			
 					obj.dx = lr == "left" ? -x(d.year) - padding : (width - x(d.year)) + padding;
 					obj.connector.end = "arrow";					
 					obj.color = lookup.hide ? "#ccc" : color_types[d.type];
