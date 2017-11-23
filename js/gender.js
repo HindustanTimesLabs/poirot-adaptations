@@ -121,6 +121,13 @@ d3.csv("data/gender.csv", function(err, data){
   svg.selectAll(".cell")
     .on("mouseover", tipon);
 
+  d3.event = document.createEvent('MouseEvent');
+  d3.event.initMouseEvent("mouseover");
+
+  var starter = data.filter(function(d){ return d.book == "Murder on the Orient Express"; })[0];
+  tipon({data: starter});
+  // d3.select(".cell.murderer.greta-ohlsson.murder-on-the-orient-express").on("mouseover")();
+
   function tipon(d){
       d3.selectAll(".cell")
         .classed("selected", false);
@@ -176,8 +183,8 @@ d3.csv("data/gender.csv", function(err, data){
             x: line.type == "murderer" ? x1 - size : x2,
             y: line.type == "murderer" ? y1 - (orient ? 0 : size) : y2
           },{
-            x: line.type == "murderer" ? x2 : x1 + (top == window_offset ? -size * 2 : 0),
-            y: line.type == "murderer" ? y2 : y1 + (top == window_offset ? 0 : -size * 2)
+            x: line.type == "murderer" ? x2 : x1 + (y1 < 50 ? -size * 2 : 0),
+            y: line.type == "murderer" ? y2 : y1 + (y1 < 50 ? 0 : -size * 2)
           }
         ]
       });
@@ -230,6 +237,12 @@ d3.csv("data/gender.csv", function(err, data){
         relativePos.left = childrenPos.left - parentPos.left;
         return relativePos;
       }
+
+      d3.timeout(function(){
+        $(".greta-ohlsson.murder-on-the-orient-express").click();  
+      }, 2000);
+      
+
 
       // var murder_lines = svg.selectAll(".murder-line")
       //     .data(makeLinesArray("murderer"));
