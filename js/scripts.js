@@ -491,9 +491,6 @@ function doit(){
 
 	}
 
-	// make the legend
-
-
 	function keepNumber(x){
 		return x.replace(/[^\d.-]/g, "");
 	}

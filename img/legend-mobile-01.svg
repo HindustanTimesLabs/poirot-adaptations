@@ -3,17 +3,18 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="45 -1098.6 451.4 90.6" style="enable-background:new 45 -1098.6 451.4 90.6;" xml:space="preserve">
 <style type="text/css">
+	*{font-family: "Open Sans", sans-serif;}
 	.st0{fill:none;stroke:#CCCCCC;stroke-miterlimit:10;}
 	.st1{fill:#45B29D;}
 	.st2{fill:#334D5C;}
 	.st3{fill:#DF5A49;}
 	.st4{enable-background:new    ;}
-	.st5{font-family:'OpenSans-Bold';}
+	.st5{font-family:'Open Sans', sans-serif;font-weight:bold;}
 	.st6{font-size:16px;}
-	.st7{font-family:'OpenSans';}
+	.st7{font-family:'Open Sans', sans-serif;}
 	.st8{fill:#888888;}
 	.st9{font-size:12px;}
-	.st10{font-family:'Arial-BoldMT';}
+	.st10{font-family:'Open Sans', sans-serif;}
 	.st11{fill:none;stroke:#000000;stroke-miterlimit:10;}
 	.st12{fill:none;stroke:#DF5A49;stroke-miterlimit:10;}
 	.st13{fill:none;stroke:#334D5C;stroke-miterlimit:10;}

@@ -8,10 +8,11 @@ d3.json("data/image-list.json", function(error, data){
 
 });
 
-// better image preloading @ https://perishablepress.com/press/2009/12/28/3-ways-preload-images-css-javascript-ajax/
 function preloader(url, index) {
 
-	// d3.select("#header").append("div").attr("class", "cell").style("background-image", "url(" + url + ")");
+	// if (url.indexOf("orient_express") != -1){
+	// 	d3.select("#header").append("div").attr("class", "cell").style("background-image", "url(" + url + ")");	
+	// }	
 
 	d3.select("body").append("div").attr("id", "preload-" + index);
 
