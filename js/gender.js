@@ -1,173 +1,186 @@
-// magic numbers
-var ww = window.innerWidth;
+var w = $(window).width();
 
-// setup tip
-var tip = d3.select("#gender-chart").append("div")
-  .attr("class", "gender-tip");
+$(document).ready(drawit);
+$(window).smartresize(function(){
+  // only on width change
+  if ($(window).width() != w){
+    drawit();
+    w = $(window).width()
+  } else {
+    // do nothing
+  }
+  
+});
 
-tip.append("div").attr("class", "book-name");
-tip.append("div").attr("class", "type murderer");
-tip.append("div").attr("class", "kill");
-tip.append("div").attr("class", "type victim");
+function drawit(){
+  $("#gender-chart").empty();
+  $(".gender-tip").remove();
 
-var colors = {red: "#df5a49", blue: "#2880b9", green: "#45b29d"};
-var color_names = {man: colors.blue, woman: colors.red};
-var element = "#gender-chart";
-var margin = {left: 30, top: 60};
-var setup = d3.marcon()
-	.element(element)
-	.width(+jz.str.keepNumber(d3.select(element).style("width")))
-	.height(600)
-	.left(margin.left)
-	.right(margin.left)
-	.top(margin.top)
-	.bottom(20);
-setup.render();
-var width = setup.innerWidth(), height = setup.innerHeight(), svg = setup.svg();
+  // magic numbers
+  var ww = window.innerWidth;
 
-var x = d3.scaleBand()
-	.rangeRound([0, width]);
+  // setup tip
+  var tip = d3.select("#gender-chart").append("div")
+    .attr("class", "gender-tip");
 
-var y = d3.scaleLinear()
-  .rangeRound([0, height]);
+  tip.append("div").attr("class", "book-name");
+  tip.append("div").attr("class", "type murderer");
+  tip.append("div").attr("class", "kill");
+  tip.append("div").attr("class", "type victim");
 
-var size = 8;
+  var colors = {red: "#df5a49", blue: "#2880b9", green: "#45b29d"};
+  var color_names = {man: colors.blue, woman: colors.red};
+  var element = "#gender-chart";
+  var margin = {left: 30, top: 60};
+  var setup = d3.marcon()
+    .element(element)
+    .width(+jz.str.keepNumber(d3.select(element).style("width")))
+    .height(600)
+    .left(margin.left)
+    .right(margin.left)
+    .top(margin.top)
+    .bottom(20);
+  setup.render();
+  var width = setup.innerWidth(), height = setup.innerHeight(), svg = setup.svg();
 
-d3.csv("data/gender.csv", function(err, data){
+  var x = d3.scaleBand()
+    .rangeRound([0, width]);
 
-	// data types
-	data.forEach(function(d){
-		d.book_year = +d.book_year;
-		return d;
-	});
+  var y = d3.scaleLinear()
+    .rangeRound([0, height]);
 
-	var genders = jz.arr.uniqueBy(data, "gender");
-	var types = jz.arr.uniqueBy(data, "type");
+  var size = 8;
 
-  var books_data = jz.arr.uniqueBy(data, "book").map(function(book){
-    var lookup = data.filter(function(d){ return d.book == book; });
-    var this_data = [];
-    types.forEach(function(type){
-      genders.forEach(function(gender){
-        this_data.push({
-          type: type,
-          gender: gender,
-          count: lookup.filter(function(d){ return d.type == type && d.gender == gender}).length
-        })
-      });
+  d3.csv("data/gender.csv", function(err, data){
+
+    // data types
+    data.forEach(function(d){
+      d.book_year = +d.book_year;
+      return d;
     });
 
-    function filter_facet(type, gender){
-      return this_data.filter(function(d){ return d.type == type && d.gender == gender; })[0].count;
-    }
+    var genders = jz.arr.uniqueBy(data, "gender");
+    var types = jz.arr.uniqueBy(data, "type");
 
-    return {
-      book: book,
-      murderer_man: filter_facet("murderer", "man"),
-      murderer_woman: filter_facet("murderer", "woman"),
-      victim_man: filter_facet("victim", "man"),
-      victim_woman: filter_facet("victim", "woman"),
-    }
-  });
+    var books_data = jz.arr.uniqueBy(data, "book").map(function(book){
+      var lookup = data.filter(function(d){ return d.book == book; });
+      var this_data = [];
+      types.forEach(function(type){
+        genders.forEach(function(gender){
+          this_data.push({
+            type: type,
+            gender: gender,
+            count: lookup.filter(function(d){ return d.type == type && d.gender == gender}).length
+          })
+        });
+      });
 
-	// domains
-	x.domain(types);
-	y.domain(d3.extent(data, function(d){ return d.book_year; }));
+      function filter_facet(type, gender){
+        return this_data.filter(function(d){ return d.type == type && d.gender == gender; })[0].count;
+      }
 
-  // time label
-  svg.append("text")
-      .attr("class", "time-label")
-      .attr("x", -margin.left)
-      .attr("y", 0)
-      .attr("dy", -10)
-      .text("Time ↓")
+      return {
+        book: book,
+        murderer_man: filter_facet("murderer", "man"),
+        murderer_woman: filter_facet("murderer", "woman"),
+        victim_man: filter_facet("victim", "man"),
+        victim_woman: filter_facet("victim", "woman"),
+      }
+    });
 
-  // top labels
-  var top_label = svg.selectAll(".top-label")
-      .data(types)
-    .enter().append("text")
-      .attr("class", "top-label")
-      .attr("x", function(d){ return x(d) + (x.bandwidth() / 2); })
-      .attr("y", -margin.top)
-      .attr("dy", 12)
-      .text(function(d){ return jz.str.toStartCase(d) + "s"; })
+    // domains
+    x.domain(types);
+    y.domain(d3.extent(data, function(d){ return d.book_year; }));
 
-  var types_data = types.map(function(d){
-    var match = data.filter(function(e){ return e.type == d });
-    return {
-      type: d,
-      data: jz.arr.pivot(match, "gender")
-    }
-  });
+    // time label
+    svg.append("text")
+        .attr("class", "time-label")
+        .attr("x", -margin.left)
+        .attr("y", 0)
+        .attr("dy", -10)
+        .text("Time ↓")
 
-  var count_label = svg.selectAll(".count-label")
-      .data(types_data)
-    .enter().append("text")
-      .attr("class", "count-label")
-      .attr("x", function(d){ return x(d.type) + (x.bandwidth() / 2); })
-      .attr("y", -margin.top)
-      .attr("dy", 30)
-      .html(function(d){ 
-        return "<tspan style='fill: " + color_names.man + "'>" + d.data[0].count + " men</tspan> &amp; <tspan style='fill: " + color_names.woman + "'>" + d.data[1].count + " women</tspan>"
-        
-      })
+    // top labels
+    var top_label = svg.selectAll(".top-label")
+        .data(types)
+      .enter().append("text")
+        .attr("class", "top-label")
+        .attr("x", function(d){ return x(d) + (x.bandwidth() / 2); })
+        .attr("y", -margin.top)
+        .attr("dy", 12)
+        .text(function(d){ return jz.str.toStartCase(d) + "s"; })
 
-  var simulation = d3.forceSimulation(data)
-  		.force("y", d3.forceY(function(d){ return y(d.book_year); }).strength(1))
-      .force("x", d3.forceX(function(d){ return x(d.type) + (x.bandwidth() / 2); }))
-      .force("collide", d3.forceCollide(size + 1))
-      .stop();
+    var types_data = types.map(function(d){
+      var match = data.filter(function(e){ return e.type == d });
+      return {
+        type: d,
+        data: jz.arr.pivot(match, "gender")
+      }
+    });
 
-  // try 250 ticks
-  for (var i = 0; i < 250; ++i) simulation.tick();
+    var count_label = svg.selectAll(".count-label")
+        .data(types_data)
+      .enter().append("text")
+        .attr("class", "count-label")
+        .attr("x", function(d){ return x(d.type) + (x.bandwidth() / 2); })
+        .attr("y", -margin.top)
+        .attr("dy", 30)
+        .html(function(d){ 
+          return "<tspan style='fill: " + color_names.man + "'>" + d.data[0].count + " men</tspan> &amp; <tspan style='fill: " + color_names.woman + "'>" + d.data[1].count + " women</tspan>"
+          
+        })
 
-  // for loop for axes because you can't send different functions into .call()
-  types.forEach(function(type){
-  	var axis = type == "murderer" ? d3.axisLeft(y) : d3.axisRight(y);
-  	axis
-      .tickFormat(function(d){ return +d; })
-      .tickSizeOuter(0)
-      .tickSizeInner(type == "murderer" ? -width :  0)
+    var simulation = d3.forceSimulation(data)
+        .force("y", d3.forceY(function(d){ return y(d.book_year); }).strength(1))
+        .force("x", d3.forceX(function(d){ return x(d.type) + (x.bandwidth() / 2); }))
+        .force("collide", d3.forceCollide(size + 1))
+        .stop();
 
-	  svg.append("g")
-				.attr("class", "axis")
-			  .attr("transform", "translate(" + (type == "murderer" ? 0 : width) + ", 0)")
-		    .call(axis);
-  });
+    // try 250 ticks
+    for (var i = 0; i < 250; ++i) simulation.tick();
 
-	// JOIN
-  var cell = svg.append("g")
-      .attr("class", "cells")
-      .selectAll("g").data(d3.voronoi()
-        .extent([[0, 0], [width, height]])
-        .x(function(d) { return d.x; })
-        .y(function(d) { return d.y; })
-        .polygons(data)).enter().append("g")
-          .attr("class", function(d){ return "cell " + d.data.type + " " + jz.str.toSlugCase(d.data.name) + " " +jz.str.toSlugCase(d.data.book); });
-  
-  // voronoi
-  var voronoi = cell.append("path")
-      .attr("d", function(d) { return d == undefined ? null : "M" + d.join("L") + "Z"; });
+    // for loop for axes because you can't send different functions into .call()
+    types.forEach(function(type){
+      var axis = type == "murderer" ? d3.axisLeft(y) : d3.axisRight(y);
+      axis
+        .tickFormat(function(d){ return +d; })
+        .tickSizeOuter(0)
+        .tickSizeInner(type == "murderer" ? -width :  0)
 
-  // circle
-  cell.append("circle")
-    .attr("r", size)
-    .style("fill", function(d){ return color_names[d.data.gender]; })
-    .attr("cx", function(d) { return d == undefined ? null : d.data.x; })
-    .attr("cy", function(d) { return d == undefined ? null :  d.data.y; });
+      svg.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(" + (type == "murderer" ? 0 : width) + ", 0)")
+          .call(axis);
+    });
 
-  svg.selectAll(".cell")
-    .on("mouseover", tipon);
+    // JOIN
+    var cell = svg.append("g")
+        .attr("class", "cells")
+        .selectAll("g").data(d3.voronoi()
+          .extent([[0, 0], [width, height]])
+          .x(function(d) { return d.x; })
+          .y(function(d) { return d.y; })
+          .polygons(data)).enter().append("g")
+            .attr("class", function(d){ return "cell " + d.data.type + " " + jz.str.toSlugCase(d.data.name) + " " +jz.str.toSlugCase(d.data.book); });
+    
+    // voronoi
+    var voronoi = cell.append("path")
+        .attr("d", function(d) { return d == undefined ? null : "M" + d.join("L") + "Z"; });
 
-  d3.event = document.createEvent('MouseEvent');
-  d3.event.initMouseEvent("mouseover");
+    // circle
+    cell.append("circle")
+      .attr("r", size)
+      .style("fill", function(d){ return color_names[d.data.gender]; })
+      .attr("cx", function(d) { return d == undefined ? null : d.data.x; })
+      .attr("cy", function(d) { return d == undefined ? null :  d.data.y; });
 
-  var starter = data.filter(function(d){ return d.book == "The Clocks"; })[0];
-  // var starter = jz.arr.random(data);
-  tipon({data: starter});
-  // d3.select(".cell.murderer.greta-ohlsson.murder-on-the-orient-express").on("mouseover")();
+    svg.selectAll(".cell")
+      .on("mouseover", tipon);
 
-  function tipon(d){
+    d3.event = document.createEvent('MouseEvent');
+    d3.event.initMouseEvent("mouseover");
+
+    function tipon(d){
       d3.selectAll(".cell")
         .classed("selected", false);
 
@@ -281,21 +294,12 @@ d3.csv("data/gender.csv", function(err, data){
       d3.timeout(function(){
         $(".greta-ohlsson.murder-on-the-orient-express").click();  
       }, 2000);
-      
 
+    }
 
-      // var murder_lines = svg.selectAll(".murder-line")
-      //     .data(makeLinesArray("murderer"));
+    var starter = data.filter(function(d){ return d.book == "The Clocks"; })[0];
+    // var starter = jz.arr.random(data);
+    d3.timeout(function(){ tipon({data: starter})}, 500);
 
-      // murder_lines.exit().remove();
-
-      // murder_lines.enter().append("line")
-      //     .attr("class", "murder-line")
-      //     .attr("x1", function(d){ return d.x1; })
-      //     .attr("x2", function(d){ return d.x2; })
-      //     .attr("y1", function(d){ return d.y1; })
-      //     .attr("y2", function(d){ return d.y2; })
-
-  }
-
-});
+  });
+}

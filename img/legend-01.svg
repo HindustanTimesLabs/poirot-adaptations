@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="104.2 -601.7 590.8 82.4" style="enable-background:new 104.2 -601.7 590.8 82.4;" xml:space="preserve">
+	 viewBox="199.2 -242.1 590.8 82.4" style="enable-background:new 199.2 -242.1 590.8 82.4;" xml:space="preserve">
 <style type="text/css">
-	*{font-family: "Open Sans", sans-serif;}
 	.st0{fill:none;stroke:#CCCCCC;stroke-miterlimit:10;}
-	.st1{enable-background:new    ;}
-	.st2{font-family:'Open Sans';font-weight:bold;}
-	.st3{font-size:16px;}
-	.st4{font-family:'Open Sans';}
-	.st5{fill:#888888;}
-	.st6{font-size:12px;}
-	.st7{fill:#DF5A49;}
-	.st8{fill:#45B29D;}
-	.st9{fill:#334D5C;}
-	.st10{font-family:'Open Sans';font-weight:bold;}
-	.st11{fill:none;stroke:#000000;stroke-miterlimit:10;}
-	.st12{fill:none;stroke:#334D5C;stroke-miterlimit:10;}
-	.st13{fill:none;stroke:#45B29D;stroke-miterlimit:10;}
-	.st14{fill:none;stroke:#DF5A49;stroke-miterlimit:10;}
+	.st1{font-family:'OpenSans-Bold';}
+	.st2{font-size:16px;}
+	.st3{font-family:'OpenSans';}
+	.st4{fill:#888888;}
+	.st5{font-size:12px;}
+	.st6{fill:#DF5A49;}
+	.st7{fill:#45B29D;}
+	.st8{fill:#2880B9;}
+	.st9{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st10{fill:none;stroke:#45B29D;stroke-miterlimit:10;}
+	.st11{fill:none;stroke:#DF5A49;stroke-miterlimit:10;}
+	.st12{fill:none;stroke:#2880B9;stroke-miterlimit:10;}
+	.st13{font-family:'Arial-BoldMT';}
 </style>
-<line class="st0" x1="105" y1="-567" x2="695" y2="-567"/>
-<text transform="matrix(1 0 0 1 105 -588)" class="st1"><tspan x="0" y="0" class="st2 st3">Title of Agatha Christie Book</tspan><tspan x="227.6" y="0" class="st4 st3"> </tspan></text>
-<text transform="matrix(1 0 0 1 341.0339 -588)" class="st5 st4 st6">Year published | Number of adaptations</text>
-<rect x="331.4" y="-574" class="st7" width="9.3" height="14"/>
-<rect x="505.8" y="-574" class="st8" width="9.3" height="14"/>
-<rect x="425" y="-574" class="st9" width="9.3" height="14"/>
-<rect x="256.1" y="-574" width="9.3" height="14"/>
-<text transform="matrix(1 0 0 1 104.1958 -569.7607)"><tspan x="0" y="0" class="st5 st4 st6">Time </tspan><tspan x="30.7" y="0" class="st5 st10 st6">→</tspan><tspan x="42.7" y="0" class="st4 st6"> </tspan></text>
-<text transform="matrix(1 0 0 1 105.5703 -555.3486)"><tspan x="0" y="0" class="st5 st4 st6">First book was published</tspan><tspan x="0" y="14.4" class="st5 st4 st6">in 1920</tspan></text>
+<line class="st0" x1="200" y1="-207.4" x2="790" y2="-207.4"/>
+<text transform="matrix(1 0 0 1 200 -228.4)" class="st1 st2">Title of Agatha Christie Book</text>
+<text transform="matrix(1 0 0 1 427.6 -228.4)" class="st3 st2"> </text>
+<text transform="matrix(1 0 0 1 436.0339 -228.4)" class="st4 st3 st5">Year published | Number of adaptations</text>
+<rect x="426.4" y="-214.4" class="st6" width="9.3" height="14"/>
+<rect x="600.8" y="-214.4" class="st7" width="9.3" height="14"/>
+<rect x="520" y="-214.4" class="st8" width="9.3" height="14"/>
+<rect x="351.1" y="-214.4" width="9.3" height="14"/>
+<text transform="matrix(1 0 0 1 200.5703 -195.7485)" class="st4 st3 st5">First book was published</text>
+<text transform="matrix(1 0 0 1 200.5703 -181.3485)" class="st4 st3 st5">in 1920</text>
 <g>
 	<g>
-		<path class="st11" d="M261-550.9c1.5,13.8,11.3,24.4,23.3,24.4"/>
+		<path class="st9" d="M356-191.3c1.5,13.8,11.3,24.4,23.3,24.4"/>
 		<g>
-			<path d="M261.1-550.5c1.1,1,3.2,1.3,4.6,1.3c-2-1.3-3.8-3.1-4.9-5.2c-0.8,2.3-2.4,4.2-4.2,5.8C258.1-548.9,260-549.4,261.1-550.5
+			<path d="M356.1-190.9c1.1,1,3.2,1.3,4.6,1.3c-2-1.3-3.8-3.1-4.9-5.2c-0.8,2.3-2.4,4.2-4.2,5.8C353.1-189.3,355-189.8,356.1-190.9
 				z"/>
 		</g>
 	</g>
 </g>
-<text transform="matrix(1 0 0 1 288.6035 -522.5244)" class="st4 st6">Book</text>
+<text transform="matrix(1 0 0 1 383.6035 -162.9244)" class="st3 st5">Book</text>
+<text transform="matrix(1 0 0 1 552.4895 -162.9244)" class="st8 st3 st5">TV film</text>
 <g>
 	<g>
-		<path class="st12" d="M429.9-549.9c1.7,11.9,11.4,24.4,23.2,24.4"/>
+		<path class="st10" d="M605-191.3c1.5,13.8,11.3,24.4,23.3,24.4"/>
 		<g>
-			<path class="st9" d="M430-549.6c1.1,1,3.2,1.3,4.7,1.2c-2-1.3-3.9-3-5-5.1c-0.7,2.3-2.3,4.2-4,5.9
-				C427.1-547.8,429-548.4,430-549.6z"/>
+			<path class="st7" d="M605.1-190.9c1.1,1,3.2,1.3,4.6,1.3c-2-1.3-3.8-3.1-4.9-5.2c-0.8,2.3-2.4,4.2-4.2,5.8
+				C602.2-189.3,604.1-189.8,605.1-190.9z"/>
 		</g>
 	</g>
 </g>
-<text transform="matrix(1 0 0 1 457.4895 -522.5244)" class="st9 st4 st6">TV film</text>
+<text transform="matrix(1 0 0 1 632.6742 -162.9245)" class="st7 st3 st5">Film with cinematic release</text>
 <g>
 	<g>
-		<path class="st13" d="M510-550.9c1.5,13.8,11.3,24.4,23.3,24.4"/>
+		<path class="st11" d="M431.2-191.3c1.5,13.8,11.3,24.4,23.3,24.4"/>
 		<g>
-			<path class="st8" d="M510.1-550.5c1.1,1,3.2,1.3,4.6,1.3c-2-1.3-3.8-3.1-4.9-5.2c-0.8,2.3-2.4,4.2-4.2,5.8
-				C507.2-548.9,509.1-549.4,510.1-550.5z"/>
+			<path class="st6" d="M431.3-190.9c1.1,1,3.2,1.3,4.6,1.3c-2-1.3-3.8-3.1-4.9-5.2c-0.8,2.3-2.4,4.2-4.2,5.8
+				C428.4-189.3,430.2-189.8,431.3-190.9z"/>
 		</g>
 	</g>
 </g>
-<text transform="matrix(1 0 0 1 537.6742 -522.5246)" class="st8 st4 st6">Film with cinematic release</text>
+<text transform="matrix(1 0 0 1 458.8459 -162.9244)" class="st6 st3 st5">TV series</text>
 <g>
 	<g>
-		<path class="st14" d="M336.2-550.9c1.5,13.8,11.3,24.4,23.3,24.4"/>
+		<path class="st12" d="M524.9-191.8c1.7,11.9,11.4,24.4,23.2,24.4"/>
 		<g>
-			<path class="st7" d="M336.3-550.5c1.1,1,3.2,1.3,4.6,1.3c-2-1.3-3.8-3.1-4.9-5.2c-0.8,2.3-2.4,4.2-4.2,5.8
-				C333.4-548.9,335.2-549.4,336.3-550.5z"/>
+			<path class="st8" d="M525-191.4c1.1,1,3.2,1.3,4.7,1.2c-2-1.3-3.9-3-5-5.1c-0.7,2.3-2.3,4.2-4,5.9
+				C522.1-189.7,523.9-190.2,525-191.4z"/>
 		</g>
 	</g>
 </g>
-<text transform="matrix(1 0 0 1 363.8459 -522.5244)" class="st7 st4 st6">TV series</text>
+<text transform="matrix(1 0 0 1 201.5703 -210.4214)"><tspan x="0" y="0" class="st4 st3 st5">Time </tspan><tspan x="30.7" y="0" class="st4 st13 st5">→</tspan><tspan x="42.7" y="0" class="st3 st5"> </tspan></text>
 </svg>

@@ -116,7 +116,7 @@ function doit(){
 		.padding(.3)
 		.align(.01);
 
-	var colors = {red: "#df5a49", blue: "#334d5c", green: "#45b29d"};
+	var colors = {red: "#df5a49", blue: "#2880b9", green: "#45b29d"};
 
 	var color_types = {"tv-series": colors.red, "tv-film": colors.blue, "film": colors.green, book: "black"};
 
@@ -383,6 +383,7 @@ function doit(){
 			// tip
 			svg.selectAll(".media-outline")
 					.on("mouseover", function(d){
+						console.log("event occured");
 
 						var rect_class = ".media-rect." + jz.str.toSlugCase(d.book) + ".y-" + d.year;
 

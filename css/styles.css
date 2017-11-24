@@ -221,7 +221,7 @@ body {
 	.titles-wrapper h1 {
 		font-size: 2em;
 	}
-	#legend, .controls-wrapper, .viz-title-wrapper {
+	#legend, .controls-wrapper, .viz-title-wrapper, .gender-intro {
 		padding: 0px 20px;
 		width: auto;
 	}
@@ -237,6 +237,8 @@ body {
 	.controls-col.search {
 		display: none;
 	}
+
+
 
 }
 

@@ -27,6 +27,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|PT+Serif:400,400i,700" rel="stylesheet">
 
 	<link rel="stylesheet" href="css/template.css" />
+  <link rel="stylesheet" href="css/gender.css" />
 	<link rel="stylesheet" href="css/styles.css" />
 
 </head>
@@ -101,6 +102,26 @@
 		</div>
 		<div id="table"></div>
 	</div>
+  <div class="copy">
+    <p>One of the reasons for the lasting appeal of Christie&rsquo;s mysteries is how difficult it is, even for fans, to predict the identities of the killers.</p>
+    <p>Readers of Poirot never know whether the murderer will be a man or a woman – Poirot caught 28 men and 23 women – or indeed how many murderers there will be. Earlier Poirot stories, particularly those from the 1930&rsquo;s, often featured multiple murderers and multiple victims.</p>
+    
+  </div> 
+  <div class="chart-tool-wrapper">
+    
+  </div>
+
+  <div class="gender-intro">Each <b>circle</b> represents a murderer or a victim. Earlier stories are on <b>top</b>; later ones are on <b>bottom</b>. <b><span class="hover-tap">Hover or tap</span></b> on a circle for more information.</div>
+  <div id="gender-chart">
+    
+
+  </div>
+
+  <svg>
+    <marker id="markerArrow" markerWidth="13" markerHeight="13" refX="2" refY="6" orient="auto">
+      <path d="M2,2 L2,11 L10,6 L2,2" style="fill: #000000;" />
+    </marker>
+  </svg>
 
   <div class="related-wrapper">
 
@@ -162,10 +183,11 @@
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="https://unpkg.com/d3-marcon@2.0.2/build/d3-marcon.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.1.0/d3-annotation.min.js"></script>
-	<script src="https://unpkg.com/jeezy@1.12.8/lib/jeezy.min.js"></script>
+	<script src="https://unpkg.com/jeezy@1.12.9/lib/jeezy.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="http://www.hindustantimes.com/static/common/js/jquery.smartresize.js"></script>
+	<script src="js/smartresize.js"></script>
 	<script src="js/scripts.js"></script>
+  <script src="js/gender.js"></script>
 	<script src="js/preloader.js"></script>
 	<script src="js/template.js"></script>
 

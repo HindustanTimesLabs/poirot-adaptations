@@ -19,6 +19,15 @@ body {
 	margin: auto;
 }
 
+.gender-intro {
+	max-width: 600px;
+	width: 100%;
+	margin: auto;
+	font-size: .9em;
+	color: #888;
+	margin-bottom: 20px;
+}
+
 #gender-chart .axis {
 	font-family: "Open Sans", sans-serif;
 }
