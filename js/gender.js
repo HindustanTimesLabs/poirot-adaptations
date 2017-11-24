@@ -13,13 +13,13 @@ tip.append("div").attr("class", "type victim");
 var colors = {red: "#df5a49", blue: "#2880b9", green: "#45b29d"};
 var color_names = {man: colors.blue, woman: colors.red};
 var element = "#gender-chart";
-var margin = {left: 40, top: 60};
+var margin = {left: 30, top: 60};
 var setup = d3.marcon()
 	.element(element)
 	.width(+jz.str.keepNumber(d3.select(element).style("width")))
-	.height(d3.max([600, window.innerHeight]))
+	.height(600)
 	.left(margin.left)
-	.right(40)
+	.right(margin.left)
 	.top(margin.top)
 	.bottom(20);
 setup.render();
@@ -74,6 +74,14 @@ d3.csv("data/gender.csv", function(err, data){
 	x.domain(types);
 	y.domain(d3.extent(data, function(d){ return d.book_year; }));
 
+  // time label
+  svg.append("text")
+      .attr("class", "time-label")
+      .attr("x", -margin.left)
+      .attr("y", 0)
+      .attr("dy", -10)
+      .text("Time ↓")
+
   // top labels
   var top_label = svg.selectAll(".top-label")
       .data(types)
@@ -83,6 +91,26 @@ d3.csv("data/gender.csv", function(err, data){
       .attr("y", -margin.top)
       .attr("dy", 12)
       .text(function(d){ return jz.str.toStartCase(d) + "s"; })
+
+  var types_data = types.map(function(d){
+    var match = data.filter(function(e){ return e.type == d });
+    return {
+      type: d,
+      data: jz.arr.pivot(match, "gender")
+    }
+  });
+
+  var count_label = svg.selectAll(".count-label")
+      .data(types_data)
+    .enter().append("text")
+      .attr("class", "count-label")
+      .attr("x", function(d){ return x(d.type) + (x.bandwidth() / 2); })
+      .attr("y", -margin.top)
+      .attr("dy", 30)
+      .html(function(d){ 
+        return "<tspan style='fill: " + color_names.man + "'>" + d.data[0].count + " men</tspan> &amp; <tspan style='fill: " + color_names.woman + "'>" + d.data[1].count + " women</tspan>"
+        
+      })
 
   var simulation = d3.forceSimulation(data)
   		.force("y", d3.forceY(function(d){ return y(d.book_year); }).strength(1))
@@ -134,7 +162,8 @@ d3.csv("data/gender.csv", function(err, data){
   d3.event = document.createEvent('MouseEvent');
   d3.event.initMouseEvent("mouseover");
 
-  var starter = data.filter(function(d){ return d.book == "Murder on the Orient Express"; })[0];
+  var starter = data.filter(function(d){ return d.book == "The Clocks"; })[0];
+  // var starter = jz.arr.random(data);
   tipon({data: starter});
   // d3.select(".cell.murderer.greta-ohlsson.murder-on-the-orient-express").on("mouseover")();
 
@@ -156,7 +185,7 @@ d3.csv("data/gender.csv", function(err, data){
         murderer_woman_html;
 
       var victim_man_html = "<span style='color: " + color_names.man + "'>" + book_lookup.victim_man + " " + (book_lookup.victim_man == 1 ? "man" : "men") + "</span>";
-      var victim_woman_html = "<span style='color: " + color_names.woman + "'>" + book_lookup.victim_woman + " " + (book_lookup.victom_woman == 1 ? "woman" : "women")  + "</span>";
+      var victim_woman_html = "<span style='color: " + color_names.woman + "'>" + book_lookup.victim_woman + " " + (book_lookup.victim_woman == 1 ? "woman" : "women")  + "</span>";
       var victims_html = book_lookup.victim_man > 0 && book_lookup.victim_woman > 0 ?  victim_man_html + " &amp; " + victim_woman_html :
         book_lookup.victim_man > 0 ? victim_man_html :
         victim_woman_html;
@@ -167,9 +196,8 @@ d3.csv("data/gender.csv", function(err, data){
       d3.select(".gender-tip .kill").html(d3.sum([book_lookup.murderer_man, book_lookup.murderer_woman]) == 1 ? "kills" : "kill")
       d3.select(".gender-tip .type.victim").html(victims_html);
 
-
       var tip_pos = d3.select(".gender-tip").node().getBoundingClientRect();
-      var window_offset = window.pageYOffset;
+      // var window_offset = window.pageYOffset;
       var window_padding = 40;
       var y_pos = y(d.data.book_year);
       var svg_offset = $("#gender-chart svg").position();

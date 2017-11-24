@@ -29,13 +29,26 @@ body {
 	stroke: #ccc;
 	stroke-dasharray: 5, 5;
 }
+#gender-chart .axis .tick text {
+	fill: #888;
+}
 
 
-.top-label {
+#gender-chart .time-label {
+	font-size: .8em;
+	font-weight: bold;
+	fill: #888;
+}
+
+#gender-chart .top-label {
 	font-weight: bold;
 	text-anchor: middle;
 	/*display: inline-block;
 	width: 50%;*/
+}
+.count-label {
+	text-anchor: middle;
+	font-size: .8em;
 }
 
 
