@@ -1,6 +1,6 @@
 // meta tags
-var twitterStatus = '';
-var hashtags = '';
+var twitterStatus = 'In the 33 Agatha Christie novels starring Hercule Poirot, poison was used as a murder weapon 17 times.';
+var hashtags = 'MurderOnTheOrientExpress,htData';
 
 $(document).ready(function(){
   // calc breakpoint
