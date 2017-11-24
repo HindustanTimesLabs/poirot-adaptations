@@ -5,10 +5,26 @@ if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine
 
 $(".hover-tap").html(isMobile ? "Tap" : "Hover")
 
-$(document).ready(doit);
-$(window).smartresize(doit);
+var w = $(window).width();
+$(document).ready(function(){
+	drawTable();
+	drawGender();
+	drawWeapons();
+});
+$(window).smartresize(function(){
+  // only on width change
+  if ($(window).width() != w){
+    drawTable();
+    drawGender();
+    drawWeapons();
+    w = $(window).width()
+  } else {
+    // do nothing
+  }
+  
+});
 
-function doit(){
+function drawTable(){
 	
 	$("#viz #table").empty();
 	$(".tip").remove();
@@ -88,6 +104,8 @@ function doit(){
 	var tip = d3.select("body").append("div")
 		.attr("class", "tip");
 	tip.append("div")
+		.attr("class", "close-tip");
+	tip.append("div")
 		.attr("class", "title");
 	tip.append("div")
 		.attr("class", "basic-info datum");
@@ -95,6 +113,7 @@ function doit(){
 		.attr("class", "actor datum");
 	tip.append("div")
 		.attr("class", "cover-image");
+	
 
 	// setup
 	var setup = d3.marcon()
@@ -379,11 +398,24 @@ function doit(){
 			svg.select(".annotation-group")
 					.call(annotations_generator);
 		
+			if (isMobile){
+				d3.select(".tip").on("click", tipOff)	
+			}
+			
+			function tipOff(){
+				d3.selectAll(".media-rect").classed("selected", false);
+
+				d3.select(".tip")
+	       		.style("opacity", 0)
+	       		.style("left", "-1000px")
+	       		.style("top", "-1000px");				
+			}
 
 			// tip
 			svg.selectAll(".media-outline")
+					.on("mouseout", tipOff)
 					.on("mouseover", function(d){
-						console.log("event occured");
+						
 
 						var rect_class = ".media-rect." + jz.str.toSlugCase(d.book) + ".y-" + d.year;
 
@@ -398,6 +430,9 @@ function doit(){
 						tip.select(".cover-image")
 							.html(d.type == "book" || d.image == "true" ? "<img src='img/covers/" + jz.str.toSnakeCase(d.name) + "_" + d.year + ".jpg' />" : "");
 
+						tip.select(".close-tip")
+							.html("<i class='fa fa-times' aria-hidden='true'></i>");
+
 						// position
 		       	var media_pos = d3.select(rect_class).node().getBoundingClientRect();
 		       	var tip_pos = d3.select(".tip").node().getBoundingClientRect();
@@ -405,13 +440,13 @@ function doit(){
 		       	var window_offset = window.pageYOffset;
 		       	var window_padding = 40;
 
-		       	var left = (media_pos.x - tip_pos.width / 2);
-		       	left = left < 0 ? media_pos.x :
-		       		left + tip_pos.width > ww ? media_pos.x - tip_pos.width + media_width :
+		       	var left = (media_pos.left - tip_pos.width / 2);
+		       	left = left < 0 ? media_pos.left :
+		       		left + tip_pos.width > ww ? media_pos.left - tip_pos.width + media_width :
 		       		left;
 
-		       	var top = window_offset + media_pos.y - tip_pos.height - tip_offset;
-		       	top = top < window_offset + window_padding ? window_offset + media_pos.y + media_pos.height + tip_offset :
+		       	var top = window_offset + media_pos.top - tip_pos.height - tip_offset;
+		       	top = top < window_offset + window_padding ? window_offset + media_pos.top + media_pos.height + tip_offset :
 		       		top;
 		       	
 		       	d3.select(".tip")
@@ -419,15 +454,6 @@ function doit(){
 		       		.style("left", left + "px")
 		       		.style("top", top + "px");
 
-					})
-					.on("mouseout", function(){
-						d3.selectAll(".media-rect").classed("selected", false);
-
-						d3.select(".tip")
-			       		.style("opacity", 0)
-			       		.style("left", "-1000px")
-			       		.style("top", "-1000px");
-			       		
 					})
 
 			// HELPER FUNCTIONS		
@@ -491,7 +517,457 @@ function doit(){
 
 	}
 
-	function keepNumber(x){
-		return x.replace(/[^\d.-]/g, "");
-	}
+}
+
+function drawGender(){
+	var first_draw = true;
+  $("#gender-chart").empty();
+  $(".gender-tip").remove();
+
+  // magic numbers
+  var ww = window.innerWidth;
+  var bp = 510;
+
+  // setup tip
+  var tip = d3.select("#gender-chart").append("div")
+    .attr("class", "gender-tip");
+
+  tip.append("div").attr("class", "book-name");
+  tip.append("div").attr("class", "type murderer");
+  tip.append("div").attr("class", "kill");
+  tip.append("div").attr("class", "type victim");
+
+  var colors = {red: "#df5a49", blue: "#2880b9", green: "#45b29d"};
+  var color_names = {man: colors.blue, woman: colors.red};
+  var element = "#gender-chart";
+  var margin = {left: 30, top: 60};
+  var setup = d3.marcon()
+    .element(element)
+    .width(+jz.str.keepNumber(d3.select(element).style("width")))
+    .height(ww < bp ? 400 : 600)
+    .left(margin.left)
+    .right(margin.left)
+    .top(margin.top)
+    .bottom(20);
+  setup.render();
+  var width = setup.innerWidth(), height = setup.innerHeight(), svg = setup.svg();
+
+  var x = d3.scaleBand()
+    .rangeRound([0, width]);
+
+  var y = d3.scaleLinear()
+    .rangeRound([0, height]);
+
+  var size = ww < bp ? 5 : 8;
+
+  d3.csv("data/gender.csv", function(err, data){
+
+    // data types
+    data.forEach(function(d){
+      d.book_year = +d.book_year;
+      return d;
+    });
+
+    var genders = jz.arr.uniqueBy(data, "gender");
+    var types = jz.arr.uniqueBy(data, "type");
+
+    var books_data = jz.arr.uniqueBy(data, "book").map(function(book){
+      var lookup = data.filter(function(d){ return d.book == book; });
+      var this_data = [];
+      types.forEach(function(type){
+        genders.forEach(function(gender){
+          this_data.push({
+            type: type,
+            gender: gender,
+            count: lookup.filter(function(d){ return d.type == type && d.gender == gender}).length
+          })
+        });
+      });
+
+      function filter_facet(type, gender){
+        return this_data.filter(function(d){ return d.type == type && d.gender == gender; })[0].count;
+      }
+
+      return {
+        book: book,
+        murderer_man: filter_facet("murderer", "man"),
+        murderer_woman: filter_facet("murderer", "woman"),
+        victim_man: filter_facet("victim", "man"),
+        victim_woman: filter_facet("victim", "woman"),
+      }
+    });
+
+    // domains
+    x.domain(types);
+    y.domain(d3.extent(data, function(d){ return d.book_year; }));
+
+    // time label
+    svg.append("text")
+        .attr("class", "time-label")
+        .attr("x", ww < bp ? -margin.left + 4 : -margin.left)
+        .attr("y", 0)
+        .attr("dy", -10)
+        .text("Time ↓")
+
+    // top labels
+    var top_label = svg.selectAll(".top-label")
+        .data(types)
+      .enter().append("text")
+        .attr("class", "top-label")
+        .attr("x", function(d){ return x(d) + (x.bandwidth() / 2); })
+        .attr("y", -margin.top)
+        .attr("dy", 12)
+        .text(function(d){ return jz.str.toStartCase(d) + "s"; })
+
+    var types_data = types.map(function(d){
+      var match = data.filter(function(e){ return e.type == d });
+      return {
+        type: d,
+        data: jz.arr.pivot(match, "gender")
+      }
+    });
+
+    var count_label = svg.selectAll(".count-label")
+        .data(types_data)
+      .enter().append("text")
+        .attr("class", "count-label")
+        .attr("x", function(d){ return x(d.type) + (x.bandwidth() / 2); })
+        .attr("y", -margin.top)
+        .attr("dy", 30)
+        .html(function(d){ 
+          return "<tspan style='fill: " + color_names.man + "'>" + d.data[0].count + " men</tspan> &amp; <tspan style='fill: " + color_names.woman + "'>" + d.data[1].count + " women</tspan>"
+          
+        })
+
+    var simulation = d3.forceSimulation(data)
+        .force("y", d3.forceY(function(d){ return y(d.book_year); }).strength(1))
+        .force("x", d3.forceX(function(d){ return x(d.type) + (x.bandwidth() / 2); }))
+        .force("collide", d3.forceCollide(size + 1))
+        .stop();
+
+    // try 250 ticks
+    for (var i = 0; i < 250; ++i) simulation.tick();
+
+    // for loop for axes because you can't send different functions into .call()
+    types.forEach(function(type){
+      var axis = type == "murderer" ? d3.axisLeft(y) : d3.axisRight(y);
+      axis
+        .tickFormat(function(d){ return +d; })
+        .tickSizeOuter(0)
+        .tickSizeInner(type == "murderer" ? -width :  0)
+
+      svg.append("g")
+          .attr("class", "axis")
+          .attr("transform", "translate(" + (type == "murderer" ? 0 : width) + ", 0)")
+          .call(axis);
+    });
+
+    // JOIN
+    var cell = svg.append("g")
+        .attr("class", "cells")
+        .selectAll("g").data(d3.voronoi()
+          .extent([[0, 0], [width, height]])
+          .x(function(d) { return d.x; })
+          .y(function(d) { return d.y; })
+          .polygons(data)).enter().append("g")
+            .attr("class", function(d){ return "cell " + d.data.type + " " + jz.str.toSlugCase(d.data.name) + " " +jz.str.toSlugCase(d.data.book); });
+    
+    // voronoi
+    var voronoi = cell.append("path")
+        .attr("d", function(d) { return d == undefined ? null : "M" + d.join("L") + "Z"; });
+
+    // circle
+    cell.append("circle")
+      .attr("r", size)
+      .style("fill", function(d){ return color_names[d.data.gender]; })
+      .attr("cx", function(d) { return d == undefined ? null : d.data.x; })
+      .attr("cy", function(d) { return d == undefined ? null :  d.data.y; });
+
+    svg.selectAll(".cell")
+      .on("mouseover", tipon);
+
+    d3.event = document.createEvent('MouseEvent');
+    d3.event.initMouseEvent("mouseover");
+
+    function tipon(d){
+      d3.selectAll(".cell")
+        .classed("selected", false);
+
+      d3.selectAll(".cell." + jz.str.toSlugCase(d.data.book))
+        .classed("selected", true);
+
+      var book_lookup = books_data.filter(function(book_obj){
+        return book_obj.book == d.data.book;
+      })[0];
+
+      var murderer_man_html = "<span style='color: " + color_names.man + "'>" + book_lookup.murderer_man + " " + (book_lookup.murderer_man == 1 ? "man" : "men") + "</span>";
+      var murderer_woman_html = "<span style='color: " + color_names.woman + "'>" + book_lookup.murderer_woman + " " + (book_lookup.murderer_woman == 1 ? "woman" : "women") + "</span>";
+      var murderers_html = book_lookup.murderer_man > 0 && book_lookup.murderer_woman > 0 ?  murderer_man_html + " &amp; " + murderer_woman_html :
+        book_lookup.murderer_man > 0 ? murderer_man_html :
+        murderer_woman_html;
+
+      var victim_man_html = "<span style='color: " + color_names.man + "'>" + book_lookup.victim_man + " " + (book_lookup.victim_man == 1 ? "man" : "men") + "</span>";
+      var victim_woman_html = "<span style='color: " + color_names.woman + "'>" + book_lookup.victim_woman + " " + (book_lookup.victim_woman == 1 ? "woman" : "women")  + "</span>";
+      var victims_html = book_lookup.victim_man > 0 && book_lookup.victim_woman > 0 ?  victim_man_html + " &amp; " + victim_woman_html :
+        book_lookup.victim_man > 0 ? victim_man_html :
+        victim_woman_html;
+
+      // content in the tip
+      d3.select(".gender-tip .book-name").html(d.data.book + " (" + d.data.book_year + ")");
+      d3.select(".gender-tip .type.murderer").html(murderers_html);
+      d3.select(".gender-tip .kill").html(d3.sum([book_lookup.murderer_man, book_lookup.murderer_woman]) == 1 ? "kills" : "kill")
+      d3.select(".gender-tip .type.victim").html(victims_html);
+
+      var tip_pos = d3.select(".gender-tip").node().getBoundingClientRect();
+      // var window_offset = window.pageYOffset;
+      var window_padding = 40;
+      var y_pos = y(d.data.book_year);
+      var svg_offset = $("#gender-chart svg").position();
+
+      var top = y_pos - (ww < bp ? tip_pos.height * .8 : tip_pos.height * 1.2) + svg_offset.top;
+      top = top < svg_offset.top ? svg_offset.top : top;
+      if (!first_draw){
+      	top = top < $(window).scrollTop() + window_padding ? $(window).scrollTop() + window_padding : top;
+      } else {
+      	first_draw = false;
+      }
+
+      d3.select(".gender-tip")
+        .style("left", (ww / 2) - (tip_pos.width / 2) + "px")
+        .style("top", top + "px");
+
+      var lines_data = data.filter(function(r){ return r.book == d.data.book; });
+      
+      lines_data.forEach(function(line){
+        var x1 = calcx1(line);
+        var x2 = calcx2(line);
+        var y1 = y(line.book_year);
+        var y2 = top - svg_offset.top;
+        var orient = line.book == "Murder on the Orient Express";
+        line.points = [
+          {
+            x: line.type == "murderer" ? x1 - size : x2,
+            y: line.type == "murderer" ? y1 - (orient ? 0 : size) : y2
+          },{
+            x: line.type == "murderer" ? x2 : x1 + (y1 < 50 ? -size * 2 : 0),
+            y: line.type == "murderer" ? y2 : y1 + (y1 < 50 ? 0 : -size * 2)
+          }
+        ]
+        if (ww < bp){
+          line.points[1].x += 5;
+        }
+      });
+
+      var line = svg.selectAll(".tip-line")
+          .data(lines_data, function(d){ return d.name; })
+
+      line.exit().remove();
+
+      var already_drew_murderer = false;
+
+      line.enter().append("path")
+        .attr("class", "tip-line")
+        .attr("d", function(d){ 
+          var dx = d.points[1].x - d.points[0].x,
+            dy = d.points[1].y - d.points[0].y,
+            dr = Math.sqrt(dx * dx + dy * dy);
+          return "M" + d.points[0].x + "," + d.points[0].y + "A" + dr + "," + dr + " 0 0,1 " + d.points[1].x + "," + d.points[1].y;
+          
+        })
+        .attr("marker-end", function(d){ 
+          if (d.type == "murderer" && !already_drew_murderer){
+            already_drew_murderer = true;
+            return "url(#markerArrow)";  
+          } else if (d.type !== "murderer") {
+            return "url(#markerArrow)";  
+          } else {
+            return "";
+          }
+          
+        })
+
+
+      function calcx1(d){
+        var relativePos = calcRelPos("#gender-chart", ".cell." + jz.str.toSlugCase(d.name) + " circle");
+        return relativePos.left - margin.left + (d.type == "murderer" ? size * 2 : 0);
+      }
+      function calcx2(d){
+        return (d.type == "murderer" ? -50 : 50) + width / 2;
+      }
+
+      function calcRelPos(parent, child){
+        var parentPos = d3.select(parent).node().getBoundingClientRect(),
+          childrenPos = d3.select(child).node().getBoundingClientRect(),
+          relativePos = {};
+
+        relativePos.top = childrenPos.top - parentPos.top,
+        relativePos.right = childrenPos.right - parentPos.right,
+        relativePos.bottom = childrenPos.bottom - parentPos.bottom,
+        relativePos.left = childrenPos.left - parentPos.left;
+        return relativePos;
+      }
+	
+    }
+
+    var starter = data.filter(function(d){ return d.book == "The Clocks"; })[0];
+		d3.timeout(function(){ tipon({data: starter})}, 2000);
+
+
+  });
+}
+
+
+function drawWeapons(){
+
+  var element = "#weapon-chart";
+
+  $(element).empty();
+
+  var margin = {left: 110};
+
+  var setup = d3.marcon()
+      .top(0)
+      .bottom(0)
+      .left(margin.left)
+      .right(0)
+      .width(window.innerWidth < 600 ? window.innerWidth - 40 : d3.min([600, window.innerWidth]))
+      .height(window.innerWidth < 600 ? 350 : 500)
+      .element(element);
+
+  setup.render();
+
+  var width = setup.innerWidth(), height = setup.innerHeight(), svg = setup.svg();
+
+  var x = d3.scaleLinear()
+    .range([0, width]);
+
+  var y = d3.scaleBand()
+    .rangeRound([0, height])
+    .padding(.25);
+
+  var x_axis = d3.axisTop(x)
+    .tickSize(height);
+
+  var y_axis = d3.axisLeft(y)
+
+  d3.csv("data/weapons.csv", function(error, data){
+    data.forEach(function(d){ 
+      d.value = +d.value;
+      return d;
+    });
+    x.domain([0, d3.max(data, function(d){ return d.value; })]);
+    y.domain(data.map(function(d){ return d.name; }));
+
+        
+    redraw(data);  
+  });
+
+  function redraw(data){
+    // y_axis.tickFormat(function(d, i, ticks){ return i == ticks.length - 1 ? d + " murders" : d; });
+    // d3.select(".y.axis").call(customYAxis);
+
+    // join
+    var bar = svg.selectAll(".bar")
+      .data(data, function(d){ return d.name; });
+
+    var amount = svg.selectAll(".amount")
+      .data(data, function(d){ return d.name; });
+
+    var labels = svg.selectAll(".label")
+        .data(data, function(d){ return d.name; })
+      .enter().append("text")
+        .attr("class", "label")
+        .attr("x", -6)
+        .attr("y", function(d){ return y(d.name) + y.bandwidth() / 2; })
+        .attr("dy", 5)
+        .text(function(d){ return d.name; })
+        .style("text-anchor", "end")
+
+    // enter
+    bar.enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", 0)
+        .attr("y", function(d){ return y(d.name); })
+        .attr("width", function(d){ return x(d.value); })
+        .attr("height", y.bandwidth())
+        .attr("fill", "#df5a49");
+
+    amount.enter().append("text")
+        .attr("class", "amount")
+        .attr("x", function(d){ return x(d.value); })
+        .attr("y", function(d){ return y(d.name) + y.bandwidth() / 2; })
+        .attr("dy", 5)
+        .attr("dx", function(d){ return d.value == 1 ? 6 : -6; })
+        .text(function(d){ return d.value; })
+        .style("fill", function(d){ return d.value == 1 ? "black" : "white"})
+        .style("text-anchor", function(d){ return d.value == 1 ? "start" : "end"; });
+
+  }
+
+  function wrap(text, width) {
+
+    text.each(function() {
+      var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          y = text.attr("y"),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+
+      while (word = words.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        }
+      }
+    });
+
+  }
+
+  // d3 webpack functions
+
+  d3.selection.prototype.tspans = function(lines, lh) {
+      return this.selectAll('tspan')
+          .data(lines)
+          .enter()
+          .append('tspan')
+          .text(function(d) { return d; })
+          .attr('x', 0)
+          .attr('dy', function(d,i) { return i ? lh || 15 : 0; });
+  };
+
+  d3.wordwrap = function(line, maxCharactersPerLine) {
+      var w = line.split(' '),
+          lines = [],
+          words = [],
+          maxChars = maxCharactersPerLine || 40,
+          l = 0;
+      w.forEach(function(d) {
+          if (l+d.length > maxChars) {
+              lines.push(words.join(' '));
+              words.length = 0;
+              l = 0;
+          }
+          l += d.length;
+          words.push(d);
+      });
+      if (words.length) {
+          lines.push(words.join(' '));
+      }
+      return lines;
+  }
+
+  function customYAxis(g) {
+    g.call(y_axis);
+    g.select(".domain").remove();
+    g.selectAll(".tick:not(:first-of-type) line").attr("stroke", "#777").attr("stroke-dasharray", "2,2");
+    g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
+  }
 }
