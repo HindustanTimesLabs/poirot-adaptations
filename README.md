@@ -1,4 +1,4 @@
-# gujarat-election-treemap
+# poirot-adaptations
 - **Headline**: The Timeless Allure of Hercule Poirot
 - **Description**: Each of Agatha Christie's 33 Poirot books has been adapted at least once into a TV series or film. Murder on the Orient Express has been adapted the most — five times, including a new release starring Kenneth Branagh.
 - **Author**: Harry Stevens, Supriya Sharma and Rohan Naahar
