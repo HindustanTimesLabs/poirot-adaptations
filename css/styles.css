@@ -10,6 +10,15 @@ body {
 .titles-wrapper h1 {
 	font-size: 4em;
 }
+.main-related-story {
+	padding: 0px 20px;
+  font-family: "PT Serif", serif;
+  max-width: 500px;
+  margin: auto;
+  display: table;
+  font-size: .9em;
+  text-align: center;
+}
 #viz {
 	margin: auto;
 	display: table;
@@ -336,6 +345,11 @@ body {
 
 /*THE POINT AT WHICH THE TABLE IS TOO WIDE*/
 @media only screen and (max-width: 600px) {
+	html, body {
+		max-width: 100%;
+		overflow-x: hidden;
+	}
+
 	#header {
 		height: 185px;
 	}

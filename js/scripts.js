@@ -30,7 +30,7 @@ function drawTable(){
 	$(".tip").remove();
 
 	// magic numbers
-	var	ww = window.innerWidth,
+	var	ww = $(window).width(),
 		bp = 830, // breakpoint
 		sbp = 510, // small breakpoint
 		outer_width = ww > bp ? ww : d3.min([600, ww - 40]),
@@ -309,7 +309,7 @@ function drawTable(){
 					.style("fill", setFill)
 
 			media_outline.enter().append("rect")
-					.attr("class", "media-outline")
+					.attr("class", function(d){ return "media-outline " + jz.str.toSlugCase(d.book) + " y-" + d.year ; })
 					.attr("x", function(d){ return x(d.year) - (outline_width / 2); })
 					.attr("y", function(d){ return setBookY(d) - ((outline_height - media_height) / 2) })
 					.attr("width", outline_width)
@@ -411,50 +411,58 @@ function drawTable(){
 	       		.style("top", "-1000px");				
 			}
 
+			function tipOn(d){
+				var rect_class = ".media-rect." + jz.str.toSlugCase(d.book) + ".y-" + d.year;
+
+				d3.select(rect_class).classed("selected", true);
+
+				tip.select(".title")
+					.html(d.name);
+
+				tip.select(".basic-info")
+					.html(d.year + " <span style='color: " + color_types[jz.str.toSlugCase(d.type)] + "'>" + d.type + "</span>" + (d.actor ? " starring " + d.actor : ""));
+
+				tip.select(".cover-image")
+					.html(d.type == "book" || d.image == "true" ? "<img src='img/covers/" + jz.str.toSnakeCase(d.name) + "_" + d.year + ".jpg' />" : "");
+
+				tip.select(".close-tip")
+					.html("<i class='fa fa-times' aria-hidden='true'></i>");
+
+				// position
+       	var media_pos = d3.select(rect_class).node().getBoundingClientRect();
+       	var tip_pos = d3.select(".tip").node().getBoundingClientRect();
+       	var tip_offset = 5;
+       	var window_offset = window.pageYOffset;
+       	var window_padding = 40;
+
+       	var left = (media_pos.left - tip_pos.width / 2);
+       	left = left < 0 ? media_pos.left :
+       		left + tip_pos.width > ww ? media_pos.left - tip_pos.width + media_width :
+       		left;
+
+       	var top = window_offset + media_pos.top - tip_pos.height - tip_offset;
+       	top = top < window_offset + window_padding ? window_offset + media_pos.top + media_pos.height + tip_offset :
+       		top;
+       	
+       	d3.select(".tip")
+       		.style("opacity", .98)
+       		.style("left", left + "px")
+       		.style("top", top + "px");
+			}
+
 			// tip
 			svg.selectAll(".media-outline")
 					.on("mouseout", tipOff)
-					.on("mouseover", function(d){
-						
+					.on("mouseover", tipOn);
 
-						var rect_class = ".media-rect." + jz.str.toSlugCase(d.book) + ".y-" + d.year;
-
-						d3.select(rect_class).classed("selected", true);
-
-						tip.select(".title")
-							.html(d.name);
-
-						tip.select(".basic-info")
-							.html(d.year + " <span style='color: " + color_types[jz.str.toSlugCase(d.type)] + "'>" + d.type + "</span>" + (d.actor ? " starring " + d.actor : ""));
-
-						tip.select(".cover-image")
-							.html(d.type == "book" || d.image == "true" ? "<img src='img/covers/" + jz.str.toSnakeCase(d.name) + "_" + d.year + ".jpg' />" : "");
-
-						tip.select(".close-tip")
-							.html("<i class='fa fa-times' aria-hidden='true'></i>");
-
-						// position
-		       	var media_pos = d3.select(rect_class).node().getBoundingClientRect();
-		       	var tip_pos = d3.select(".tip").node().getBoundingClientRect();
-		       	var tip_offset = 5;
-		       	var window_offset = window.pageYOffset;
-		       	var window_padding = 40;
-
-		       	var left = (media_pos.left - tip_pos.width / 2);
-		       	left = left < 0 ? media_pos.left :
-		       		left + tip_pos.width > ww ? media_pos.left - tip_pos.width + media_width :
-		       		left;
-
-		       	var top = window_offset + media_pos.top - tip_pos.height - tip_offset;
-		       	top = top < window_offset + window_padding ? window_offset + media_pos.top + media_pos.height + tip_offset :
-		       		top;
-		       	
-		       	d3.select(".tip")
-		       		.style("opacity", .98)
-		       		.style("left", left + "px")
-		       		.style("top", top + "px");
-
-					})
+			// svg.selectAll(".media-rect")
+			// 		.on("mouseout", tipOff)
+			// 		.on("mouseover", tipOn);
+			d3.timeout(function(){
+				d3.select(".media-rect.murder-on-the-orient-express.y-2017").moveToFront();
+				d3.select(".media-outline.murder-on-the-orient-express.y-2017").moveToFront();	
+			}, 2000);
+			
 
 			// HELPER FUNCTIONS		
 			function setFill(d){
@@ -525,7 +533,7 @@ function drawGender(){
   $(".gender-tip").remove();
 
   // magic numbers
-  var ww = window.innerWidth;
+  var ww = $(window).width();
   var bp = 510;
 
   // setup tip
@@ -830,8 +838,8 @@ function drawWeapons(){
       .bottom(0)
       .left(margin.left)
       .right(0)
-      .width(window.innerWidth < 600 ? window.innerWidth - 40 : d3.min([600, window.innerWidth]))
-      .height(window.innerWidth < 600 ? 350 : 500)
+      .width($(window).width() < 600 ? $(window).width() - 40 : d3.min([600, $(window).width()]))
+      .height($(window).width() < 600 ? 350 : 500)
       .element(element);
 
   setup.render();
